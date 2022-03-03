@@ -6,8 +6,9 @@ import { map } from 'rxjs/operators'
 import { ajax } from 'rxjs/ajax'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login'
-import AddressBook from './pages/AddressBook'
+import Dashboard from './pages/Dashboard'
 import Projects from './pages/Projects'
+import list from './pages/list'
 
 
 
@@ -66,11 +67,14 @@ export default function App() {
               <Login />
             </GuestRoute>
             <AuthRoute path="/" exact redirectTo='/login'>
-              <AddressBook />
+              <Dashboard />
             </AuthRoute>
             <AuthRoute path="/projects" exact redirectTo='/login'>
               <Projects />
             </AuthRoute>
+            <GuestRoute path="/list" redirectTo='/list'>
+              <list />
+            </GuestRoute>
           </Switch>
         </Router>
       </ConfigureAuth>

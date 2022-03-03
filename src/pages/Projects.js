@@ -36,15 +36,32 @@ const AddProject = ({ onAdd }) => {
     e.preventDefault();
     let item = { name, description, start_date,end_date,type };
     API.post("/create/", item).then(() => refreshProjects());
+
+    setName("");
+    setDescription("");
+    setStartDate("");
+    setEndDate("");
+    setType("");
+
   };
 
   const onUpdate = (id) => {
     let item = { name };
-    API.patch('update/${id}/', item).then((res) => refreshProjects());
+    API.patch('/update/'+id+'/', item).then((res) => refreshProjects());
   };
 
   const onDelete = (id) => {
-    API.delete('item/${id}/delete/').then((res) => refreshProjects());
+      if (window.confirm("Are you sure you want to delete this project?")) {
+       API.delete('/delete/'+id).then((res) => refreshProjects())
+        .then()
+        .catch((err) => {
+          console.log(err.response);
+        });
+
+      alert("Project with ID " + id + " was deleted successfully");
+
+    }
+
   };
 
   function selectProject(id) {
@@ -55,128 +72,263 @@ const AddProject = ({ onAdd }) => {
     setEndDate(item.end_date);
     setType(item.type);
     setProjectId(item.id);
+
   }
 
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-4">
-          <h3 className="float-left">Create a Project</h3>
-          <Form onSubmit={onSubmit} className="mt-4">
-            <Form.Group className="mb-3" controlId="formBasicName">
-              <Form.Label>{projectId}Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </Form.Group>
+   <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+        <header class="topbar" data-navbarbg="skin6">
+            <nav class="navbar top-navbar navbar-expand-md">
+                <div class="navbar-header" data-logobg="skin6">
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+                            class="ti-menu ti-close"></i></a>
 
-            <Form.Group className="mb-3" controlId="formBasicGenre">
-              <Form.Label>Genre</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </Form.Group>
+                    <div class="navbar-brand">
 
-            <Form.Group className="mb-3" controlId="formBasicStarring">
-              <Form.Label>Start Date</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Start_date"
-                value={start_date}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-            </Form.Group>
+                        <a href="index.html">
+                            <b class="logo-icon" >
+                                <img src="../assets/images/logo.png" alt="homepage" class="dark-logo" />
 
-            <Form.Group className="mb-3" controlId="formBasicStarring">
-              <Form.Label>End Date</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter End Date"
-                value={end_date}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-            </Form.Group>
+                                <img src="../assets/images/logo.png" alt="homepage" class="light-logo" />
+                            </b>
+                            <span class="logo-text">
+                            </span>
+                        </a>
+                    </div>
+                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
+                        data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
+                            class="ti-more"></i></a>
+                </div>
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
 
-             <Form.Group className="mb-3" controlId="formBasicStarring">
-              <Form.Label>Type</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Type"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-              />
-            </Form.Group>
 
-            <div className="float-right">
-              <Button
-                variant="primary"
-                type="submit"
-                onClick={onSubmit}
-                className="mx-2"
-              >
-                Save
-              </Button>
-              <Button
-                variant="primary"
-                type="button"
-                onClick={() => onUpdate(projectId)}
-                className="mx-2"
-              >
-                Update
-              </Button>
+                    </ul>
+                    <ul class="navbar-nav float-right">
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
+                                        class="text-dark">{user.username}</span> <i data-feather="chevron-down"
+                                        class="svg-icon"></i></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
+                                        class="svg-icon mr-2 ml-1"></i>
+                                    My Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" onClick={logout} ><i data-feather="power"
+                                        class="svg-icon mr-2 ml-1"></i>
+                                    Logout</a>
+                                <div class="dropdown-divider"></div>
+                                <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">View
+                                        Profile</a></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+         <aside class="left-sidebar" data-sidebarbg="skin6">
+            <div class="scroll-sidebar" data-sidebarbg="skin6">
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/"
+                                aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
+                                    class="hide-menu">Dashboard</span></a></li>
+                        <li class="list-divider"></li>
+                        <li class="nav-small-cap"><span class="hide-menu">Project Plan</span></li>
+
+                        <li class="sidebar-item"> <a class="sidebar-link" href="/projects"
+                                aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span
+                                    class="hide-menu">Projects
+                                </span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="app-chat.html"
+                                aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
+                                    class="hide-menu">Plan</span></a></li>
+                        <li class="sidebar-item">
+                        <a class="sidebar-link sidebar-link" href="app-calendar.html"
+                                aria-expanded="false">
+                                <i data-feather="calendar" class="feather-icon"></i><span
+                                    class="hide-menu">Schedule</span>
+                                    </a></li>
+                        <li class="list-divider"></li>
+                    </ul>
+                </nav>
             </div>
-          </Form>
-        </div>
-        <div className="col-md-8 m">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Project Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">Type</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {projects.map((project, index) => {
-                return (
-                  <tr key="">
-                    <th scope="row">{project.id}</th>
-                    <td> {project.name}</td>
-                    <td>{project.description}</td>
-                    <td>{project.start_date}</td>
-                    <td>{project.end_date}</td>
-                    <td>{project.type}</td>
-                    <td>
-                      <i
-                        className="fa fa-pencil-square text-primary d-inline"
-                        aria-hidden="true"
-                        onClick={() => selectProject(project.id)}
-                      ></i>
-                      <i
-                        className="fa fa-trash-o text-danger d-inline mx-3"
-                        aria-hidden="true"
-                        onClick={() => onDelete(project.id)}
-                      >
-                      </i>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+         </aside>
+         <div class="page-wrapper">
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-7 align-self-center">
+                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Projects</h3>
+                    </div>
+                </div>
+            </div>
+
+             <div class="container-fluid">
+                                <div id="login-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="text-center mt-2 mb-4">
+                                                    <a href="index.html" class="text-success">
+                                                        <span></span>
+                                                    </a>
+                                                </div>
+
+                                               <Form onSubmit={onSubmit} className="mt-4">
+                                                    <Form.Group className="mb-3" controlId="formBasicName">
+                                                      <Form.Label>{projectId}Name</Form.Label>
+                                                      <Form.Control
+                                                        type="text"
+                                                        placeholder="Enter Name"
+                                                        value={name}
+                                                        onChange={(e) => setName(e.target.value)}
+                                                      />
+                                                    </Form.Group>
+
+                                                    <Form.Group className="mb-3" controlId="formBasicGenre">
+                                                      <Form.Label>Description</Form.Label>
+                                                      <Form.Control
+                                                        type="text"
+                                                        placeholder="Enter Description"
+                                                        value={description}
+                                                        onChange={(e) => setDescription(e.target.value)}
+                                                      />
+                                                    </Form.Group>
+
+                                                    <Form.Group className="mb-3" controlId="formBasicStarring">
+                                                      <Form.Label>Start Date</Form.Label>
+                                                      <Form.Control
+                                                        type="text"
+                                                        placeholder="Enter Start_date"
+                                                        value={start_date}
+                                                        onChange={(e) => setStartDate(e.target.value)}
+                                                      />
+                                                    </Form.Group>
+
+                                                    <Form.Group className="mb-3" controlId="formBasicStarring">
+                                                      <Form.Label>End Date</Form.Label>
+                                                      <Form.Control
+                                                        type="text"
+                                                        placeholder="Enter End Date"
+                                                        value={end_date}
+                                                        onChange={(e) => setEndDate(e.target.value)}
+                                                      />
+                                                    </Form.Group>
+
+                                                     <Form.Group className="mb-3" controlId="formBasicStarring">
+                                                      <Form.Label>Type</Form.Label>
+                                                      <Form.Control
+                                                        type="text"
+                                                        placeholder="Enter Type"
+                                                        value={type}
+                                                        onChange={(e) => setType(e.target.value)}
+                                                      />
+                                                    </Form.Group>
+
+                                                    <div className="float-right">
+                                                      <Button
+                                                        variant="primary"
+                                                        type="submit"
+                                                        onClick={onSubmit}
+                                                        className="mx-2"
+                                                      >
+                                                        Save
+                                                      </Button>
+                                                      <Button
+                                                        variant="primary"
+                                                        type="button"
+                                                        onClick={() => onUpdate(projectId)}
+                                                        className="mx-2"
+                                                      >
+                                                        Update
+                                                      </Button>
+                                                    </div>
+                                                  </Form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                 <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-4">
+                                    <h4 class="card-title">List of Projects</h4>
+                                    <div class="ml-auto">
+                                        <div class="dropdown sub-dropdown">
+                                            <button class="btn btn-link text-muted dropdown-toggle" type="button"
+                                                id="dd1" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <i data-feather="more-vertical"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
+                                                <a class="dropdown-item" data-toggle="modal"
+                                                    data-target="#login-modal">Create</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table no-wrap v-middle mb-0">
+                                        <thead>
+                                            <tr class="border-0">
+
+                                                <th class="border-0 font-14 font-weight-medium text-muted px-2">Name
+                                                </th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Description</th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted text-left">
+                                                    Start Date
+                                                </th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted text-left">
+                                                  End Date
+                                                </th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Type</th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {projects.map((project, index) => {
+                                                return (
+                                                  <tr key="">
+                                                    <th hidden="true" scope="row">{project.id}</th>
+                                                    <td> {project.name}</td>
+                                                    <td>{project.description}</td>
+                                                    <td>{project.start_date}</td>
+                                                    <td>{project.end_date}</td>
+                                                    <td>{project.type}</td>
+                                                    <td>
+                                                    <a onClick={() => selectProject(project.id)}><i class="icon-pencil mr-2 text-success" ></i></a>
+				                                    <a onClick={() => onDelete(project.id)}><i class="fa fa-times" ></i></a>
+                                                    </td>
+                                                  </tr>
+                                                );
+                                              })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+             </div>
+
+         </div>
+           <footer class="footer text-center text-muted">
+                All Rights Reserved by Coseke. Designed and Developed by <a
+                    href="">Coseke U LTD</a>.
+            </footer>
       </div>
-    </div>
+
   );
 };
 
