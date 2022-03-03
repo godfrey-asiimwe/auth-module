@@ -72,9 +72,9 @@ export default function App() {
             <AuthRoute path="/projects" exact redirectTo='/login'>
               <Projects />
             </AuthRoute>
-            <GuestRoute path="/list" redirectTo='/list'>
+            <AuthRoute path="/projects" exact redirectTo='/login'>
               <list />
-            </GuestRoute>
+            </AuthRoute>
           </Switch>
         </Router>
       </ConfigureAuth>

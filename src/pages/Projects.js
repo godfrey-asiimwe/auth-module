@@ -183,7 +183,7 @@ const AddProject = ({ onAdd }) => {
 
                                                <Form onSubmit={onSubmit} className="mt-4">
                                                     <Form.Group className="mb-3" controlId="formBasicName">
-                                                      <Form.Label>{projectId}Name</Form.Label>
+                                                      <Form.Label>Name</Form.Label>
                                                       <Form.Control
                                                         type="text"
                                                         placeholder="Enter Name"
@@ -305,8 +305,10 @@ const AddProject = ({ onAdd }) => {
                                                     <td>{project.end_date}</td>
                                                     <td>{project.type}</td>
                                                     <td>
-                                                    <a onClick={() => selectProject(project.id)}><i class="icon-pencil mr-2 text-success" ></i></a>
-				                                    <a onClick={() => onDelete(project.id)}><i class="fa fa-times" ></i></a>
+                                                    <a data-toggle="modal" data-target="#login-modal" onClick={() => selectProject(project.id)}>
+                                                    <i class="icon-pencil mr-2 text-success" ></i></a>
+				                                    <a onClick={() => onDelete(project.id)}>
+				                                    <i class="fa fa-times" ></i></a>
                                                     </td>
                                                   </tr>
                                                 );
