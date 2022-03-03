@@ -7,6 +7,8 @@ import { ajax } from 'rxjs/ajax'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login'
 import AddressBook from './pages/AddressBook'
+import Projects from './pages/Projects'
+
 
 
 const login = (credentials = {}) =>
@@ -65,6 +67,9 @@ export default function App() {
             </GuestRoute>
             <AuthRoute path="/" exact redirectTo='/login'>
               <AddressBook />
+            </AuthRoute>
+            <AuthRoute path="/projects" exact redirectTo='/login'>
+              <Projects />
             </AuthRoute>
           </Switch>
         </Router>

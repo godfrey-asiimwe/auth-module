@@ -3,6 +3,7 @@ import { rj, useRunRj } from 'react-rocketjump'
 import { ajax } from 'rxjs/ajax'
 import { useAuthActions, useAuthUser } from 'use-eazy-auth'
 import ContactCard from '../components/ContactCard'
+import API from "../API"
 
 const ContactsState = rj({
   effectCaller: rj.configured(),
@@ -85,7 +86,7 @@ export default function AddressBook() {
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Project Plan</span></li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link" href="ticket-list.html"
+                        <li class="sidebar-item"> <a class="sidebar-link" href="/projects"
                                 aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span
                                     class="hide-menu">Projects
                                 </span></a>
