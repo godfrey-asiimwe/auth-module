@@ -8,7 +8,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Projects from './pages/Projects'
-import list from './pages/list'
 
 
 
@@ -71,9 +70,6 @@ export default function App() {
             </AuthRoute>
             <AuthRoute path="/projects" exact redirectTo='/login'>
               <Projects />
-            </AuthRoute>
-            <AuthRoute path="/projects" exact redirectTo='/login'>
-              <list />
             </AuthRoute>
           </Switch>
         </Router>

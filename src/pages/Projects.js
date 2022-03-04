@@ -47,7 +47,13 @@ const AddProject = ({ onAdd }) => {
 
   const onUpdate = (id) => {
     let item = { name };
-    API.patch('/update/'+id+'/', item).then((res) => refreshProjects());
+    API.post('/update/'+id, item).then((res) => refreshProjects());
+
+    setName("");
+    setDescription("");
+    setStartDate("");
+    setEndDate("");
+    setType("");
   };
 
   const onDelete = (id) => {
@@ -171,91 +177,96 @@ const AddProject = ({ onAdd }) => {
             </div>
 
              <div class="container-fluid">
-                                <div id="login-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <div class="text-center mt-2 mb-4">
-                                                    <a href="index.html" class="text-success">
-                                                        <span></span>
-                                                    </a>
-                                                </div>
 
-                                               <Form onSubmit={onSubmit} className="mt-4">
-                                                    <Form.Group className="mb-3" controlId="formBasicName">
-                                                      <Form.Label>Name</Form.Label>
-                                                      <Form.Control
-                                                        type="text"
-                                                        placeholder="Enter Name"
-                                                        value={name}
-                                                        onChange={(e) => setName(e.target.value)}
-                                                      />
-                                                    </Form.Group>
 
-                                                    <Form.Group className="mb-3" controlId="formBasicGenre">
-                                                      <Form.Label>Description</Form.Label>
-                                                      <Form.Control
-                                                        type="text"
-                                                        placeholder="Enter Description"
-                                                        value={description}
-                                                        onChange={(e) => setDescription(e.target.value)}
-                                                      />
-                                                    </Form.Group>
-
-                                                    <Form.Group className="mb-3" controlId="formBasicStarring">
-                                                      <Form.Label>Start Date</Form.Label>
-                                                      <Form.Control
-                                                        type="text"
-                                                        placeholder="Enter Start_date"
-                                                        value={start_date}
-                                                        onChange={(e) => setStartDate(e.target.value)}
-                                                      />
-                                                    </Form.Group>
-
-                                                    <Form.Group className="mb-3" controlId="formBasicStarring">
-                                                      <Form.Label>End Date</Form.Label>
-                                                      <Form.Control
-                                                        type="text"
-                                                        placeholder="Enter End Date"
-                                                        value={end_date}
-                                                        onChange={(e) => setEndDate(e.target.value)}
-                                                      />
-                                                    </Form.Group>
-
-                                                     <Form.Group className="mb-3" controlId="formBasicStarring">
-                                                      <Form.Label>Type</Form.Label>
-                                                      <Form.Control
-                                                        type="text"
-                                                        placeholder="Enter Type"
-                                                        value={type}
-                                                        onChange={(e) => setType(e.target.value)}
-                                                      />
-                                                    </Form.Group>
-
-                                                    <div className="float-right">
-                                                      <Button
-                                                        variant="primary"
-                                                        type="submit"
-                                                        onClick={onSubmit}
-                                                        className="mx-2"
-                                                      >
-                                                        Save
-                                                      </Button>
-                                                      <Button
-                                                        variant="primary"
-                                                        type="button"
-                                                        onClick={() => onUpdate(projectId)}
-                                                        className="mx-2"
-                                                      >
-                                                        Update
-                                                      </Button>
-                                                    </div>
-                                                  </Form>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                <div id="login-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="text-center mt-2 mb-4">
+                                    <a href="index.html" class="text-success">
+                                        <span></span>
+                                    </a>
                                 </div>
+
+                               <Form onSubmit={onSubmit} className="mt-4">
+                                    <Form.Group className="mb-3" controlId="formBasicName">
+                                      <Form.Label>Name</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        placeholder="Enter Name"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                      />
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="formBasicGenre">
+                                      <Form.Label>Description</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        placeholder="Enter Description"
+                                        value={description}
+                                        onChange={(e) => setDescription(e.target.value)}
+                                      />
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="formBasicStarring">
+                                      <Form.Label>Start Date</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        placeholder="Enter Start_date"
+                                        value={start_date}
+                                        onChange={(e) => setStartDate(e.target.value)}
+                                      />
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="formBasicStarring">
+                                      <Form.Label>End Date</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        placeholder="Enter End Date"
+                                        value={end_date}
+                                        onChange={(e) => setEndDate(e.target.value)}
+                                      />
+                                    </Form.Group>
+
+                                     <Form.Group className="mb-3" controlId="formBasicStarring">
+                                      <Form.Label>Type</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        placeholder="Enter Type"
+                                        value={type}
+                                        onChange={(e) => setType(e.target.value)}
+                                      />
+                                    </Form.Group>
+
+                                    <div className="float-right">
+                                      <Button
+                                        variant="primary"
+                                        type="submit"
+                                        onClick={onSubmit}
+                                        className="mx-2"
+                                      >
+                                        Save
+                                      </Button>
+                                      <Button
+                                        variant="primary"
+                                        type="button"
+                                        onClick={() => onUpdate(projectId)}
+                                        className="mx-2"
+                                      >
+                                        Update
+                                      </Button>
+                                    </div>
+                                  </Form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
                  <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -280,15 +291,15 @@ const AddProject = ({ onAdd }) => {
                                     <table class="table no-wrap v-middle mb-0">
                                         <thead>
                                             <tr class="border-0">
-
-                                                <th class="border-0 font-14 font-weight-medium text-muted px-2">Name
+                                                <th class="border-0 font-14 font-weight-medium text-muted px-2">
+                                                Name
                                                 </th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted">Description</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted text-left">
-                                                    Start Date
+                                                Start Date
                                                 </th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted text-left">
-                                                  End Date
+                                                 End Date
                                                 </th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted">Type</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted">Actions</th>
@@ -299,7 +310,7 @@ const AddProject = ({ onAdd }) => {
                                                 return (
                                                   <tr key="">
                                                     <th hidden="true" scope="row">{project.id}</th>
-                                                    <td> {project.name}</td>
+                                                    <td>{project.name}</td>
                                                     <td>{project.description}</td>
                                                     <td>{project.start_date}</td>
                                                     <td>{project.end_date}</td>
@@ -320,10 +331,7 @@ const AddProject = ({ onAdd }) => {
                         </div>
                     </div>
                 </div>
-
-
              </div>
-
          </div>
            <footer class="footer text-center text-muted">
                 All Rights Reserved by Coseke. Designed and Developed by <a
