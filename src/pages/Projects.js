@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import React,{ useState, useEffect } from 'react';
 import { ListGroup, Card, Button, Form } from "react-bootstrap";
 import { rj, useRunRj } from 'react-rocketjump'
 import { ajax } from 'rxjs/ajax'
 import { useAuthActions, useAuthUser } from 'use-eazy-auth'
+import AsyncSelect from 'react-select/async';
 import API from "../API"
-
+import auth from "../auth"
 
 
 
@@ -19,6 +20,27 @@ const AddProject = ({ onAdd }) => {
   const [projectId, setProjectId] = useState(null);
   const [projects, setProjects] = useState([]);
 
+  const [items, setItems] = useState([]);
+  const [inputValue, setValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState(null);
+
+
+  // handle input change event
+  const handleInputChange = value => {
+    setValue(value);
+  };
+
+  // handle selection
+  const handleChange = value => {
+    setSelectedValue(value);
+  }
+
+  const fetchData = () => {
+    return  auth.get('/users/').then(result => {
+      const res =  result.data.data;
+      return res;
+    }).catch(console.error);
+  }
 
   useEffect(() => {
     refreshProjects();
@@ -148,14 +170,21 @@ const AddProject = ({ onAdd }) => {
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Project Plan</span></li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link" href="/projects"
-                                aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span
-                                    class="hide-menu">Projects
-                                </span></a>
+                        <li class="sidebar-item">
+                                <a class="sidebar-link" href="/projects"
+                                aria-expanded="false">
+                                    <i data-feather="tag" class="feather-icon"></i><span
+                                        class="hide-menu">
+                                        Projects
+                                    </span>
+                                </a>
                         </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="app-chat.html"
-                                aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
-                                    class="hide-menu">Plan</span></a></li>
+                        <li class="sidebar-item">
+                                <a class="sidebar-link sidebar-link" href="app-chat.html"
+                                aria-expanded="false">
+                                <i data-feather="message-square" class="feather-icon"></i>
+                                <span class="hide-menu">Plan
+                                </span></a></li>
                         <li class="sidebar-item">
                         <a class="sidebar-link sidebar-link" href="app-calendar.html"
                                 aria-expanded="false">
@@ -263,6 +292,51 @@ const AddProject = ({ onAdd }) => {
                 </div>
 
 
+                 <div id="adduser-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="text-center mt-2 mb-4">
+                                    <a href="" class="text-success">
+                                        <span>Add User</span>
+                                    </a>
+                                </div>
+
+                               <Form onSubmit={onSubmit} className="mt-4">
+                                    <Form.Group className="mb-3" controlId="formBasicName">
+                                       <div>
+                                       Selected Value: {JSON.stringify(selectedValue || {}, null, 2)}
+                                       </div>
+                                     <div className="col-md-12">
+                                        <AsyncSelect
+                                        cacheOptions
+                                        defaultOptions
+                                        value={selectedValue}
+                                        getOptionLabel={value => value.first_name + ' ' + value.last_name}
+                                        getOptionValue={value => value.id}
+                                        loadOptions={fetchData}
+                                        onInputChange={handleInputChange}
+                                        onChange={handleChange}
+                                      />
+                                     </div>
+
+                                    </Form.Group>
+                                        <div className="float-right">
+                                          <Button
+                                            variant="primary"
+                                            type="submit"
+                                            onClick={onSubmit}
+                                            className="mx-2"
+                                          >
+                                            Add
+                                          </Button>
+                                        </div>
+                                  </Form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                  <div class="row">
                     <div class="col-12">
@@ -280,6 +354,8 @@ const AddProject = ({ onAdd }) => {
                                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
                                                 <a class="dropdown-item" data-toggle="modal"
                                                     data-target="#login-modal">Create</a>
+                                                 <a class="dropdown-item" data-toggle="modal"
+                                                    data-target="#adduser-modal">Add User</a>
                                             </div>
                                         </div>
                                     </div>
@@ -311,12 +387,16 @@ const AddProject = ({ onAdd }) => {
                                                     <td>{project.description}</td>
                                                     <td>{project.start_date}</td>
                                                     <td>{project.end_date}</td>
-                                                    <td>{project.type}</td>
                                                     <td>
-                                                    <a data-toggle="modal" data-target="#login-modal" onClick={() => selectProject(project.id)}>
-                                                    <i class="icon-pencil mr-2 text-success" ></i></a>
-				                                    <a onClick={() => onDelete(project.id)}>
-				                                    <i class="fa fa-times" ></i></a>
+                                                    {project.type}
+                                                    </td>
+                                                    <td>
+                                                        <a data-toggle="modal" data-target="#login-modal" onClick={() => selectProject(project.id)}>
+                                                        <i class="icon-pencil mr-2 text-success" ></i></a>
+                                                        <a data-toggle="modal" data-target="#adduser-modal" onClick={() => selectProject(project.id)}>
+                                                        <i class="icon-plus mr-2 text-success" ></i></a>
+                                                        <a onClick={() => onDelete(project.id)}>
+                                                        <i class="fa fa-times" ></i></a>
                                                     </td>
                                                   </tr>
                                                 );
