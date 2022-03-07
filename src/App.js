@@ -26,7 +26,6 @@ const login = (credentials = {}) =>
     }))
   )
 
-
 const me = (token) =>
   ajax.getJSON('/me/', {
     Authorization: `Bearer ${token}`,

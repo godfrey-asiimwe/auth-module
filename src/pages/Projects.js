@@ -46,7 +46,7 @@ const AddProject = ({ onAdd }) => {
   };
 
   const onUpdate = (id) => {
-    let item = { name };
+    let item = {name,description,start_date,end_date,type};
     API.post('/update/'+id, item).then((res) => refreshProjects());
 
     setName("");
@@ -200,20 +200,17 @@ const AddProject = ({ onAdd }) => {
                                       />
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="formBasicGenre">
-                                      <Form.Label>Description</Form.Label>
-                                      <Form.Control
-                                        type="text"
-                                        placeholder="Enter Description"
+                                    <div class="form-group">
+                                        <textarea class="form-control" rows="3" placeholder="Text Here..."
                                         value={description}
                                         onChange={(e) => setDescription(e.target.value)}
-                                      />
-                                    </Form.Group>
+                                        ></textarea>
+                                    </div>
 
                                     <Form.Group className="mb-3" controlId="formBasicStarring">
                                       <Form.Label>Start Date</Form.Label>
                                       <Form.Control
-                                        type="text"
+                                        type="date"
                                         placeholder="Enter Start_date"
                                         value={start_date}
                                         onChange={(e) => setStartDate(e.target.value)}
@@ -223,7 +220,7 @@ const AddProject = ({ onAdd }) => {
                                     <Form.Group className="mb-3" controlId="formBasicStarring">
                                       <Form.Label>End Date</Form.Label>
                                       <Form.Control
-                                        type="text"
+                                        type="date"
                                         placeholder="Enter End Date"
                                         value={end_date}
                                         onChange={(e) => setEndDate(e.target.value)}
