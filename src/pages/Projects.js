@@ -8,7 +8,6 @@ import API from "../API"
 import auth from "../auth"
 
 
-
 const AddProject = ({ onAdd }) => {
   const { user } = useAuthUser()
   const { logout } = useAuthActions()
@@ -20,10 +19,10 @@ const AddProject = ({ onAdd }) => {
   const [projectId, setProjectId] = useState(null);
   const [projects, setProjects] = useState([]);
 
-  const [items, setItems] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [userId, setUserId] = useState(null);
   const [inputValue, setValue] = useState('');
   const [selectedValue, setSelectedValue] = useState(null);
-
 
   // handle input change event
   const handleInputChange = value => {
@@ -35,16 +34,33 @@ const AddProject = ({ onAdd }) => {
     setSelectedValue(value);
   }
 
+  //fetching users from the system
   const fetchData = () => {
-    return  auth.get('/users/').then(result => {
-      const res =  result.data.data;
-      return res;
-    }).catch(console.error);
+    auth.get("/users/")
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch(console.error);
   }
 
   useEffect(() => {
     refreshProjects();
+    fetchData();
   }, []);
+
+  const onUserSubmit = (projectId,userId) => {
+
+    let item = {userId,projectId};
+
+    if (window.confirm("Are you sure you want to add a user to this project?")) {
+       auth.post("/create/", item).then((res) => fetchData())
+        .then()
+        .catch((err) => {
+          alert("user already exits");
+        });
+    }
+
+  };
 
   const refreshProjects = () => {
     API.get("/all/")
@@ -66,6 +82,7 @@ const AddProject = ({ onAdd }) => {
     setType("");
 
   };
+
 
   const onUpdate = (id) => {
     let item = {name,description,start_date,end_date,type};
@@ -102,6 +119,7 @@ const AddProject = ({ onAdd }) => {
     setProjectId(item.id);
 
   }
+
 
   return (
    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
@@ -206,8 +224,6 @@ const AddProject = ({ onAdd }) => {
             </div>
 
              <div class="container-fluid">
-
-
                 <div id="login-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -302,32 +318,34 @@ const AddProject = ({ onAdd }) => {
                                     </a>
                                 </div>
 
-                               <Form onSubmit={onSubmit} className="mt-4">
+                               <Form onSubmit={onUserSubmit} className="mt-4">
                                     <Form.Group className="mb-3" controlId="formBasicName">
-                                       <div>
-                                       Selected Value: {JSON.stringify(selectedValue || {}, null, 2)}
-                                       </div>
+
                                      <div className="col-md-12">
-                                        <AsyncSelect
-                                        cacheOptions
-                                        defaultOptions
-                                        value={selectedValue}
-                                        getOptionLabel={value => value.first_name + ' ' + value.last_name}
-                                        getOptionValue={value => value.id}
-                                        loadOptions={fetchData}
-                                        onInputChange={handleInputChange}
-                                        onChange={handleChange}
-                                      />
+
+                                        <div class="form-group mb-4">
+                                            <label for="exampleFormControlSelect1">Select User</label>
+                                            <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setUserId(e.target.value)}
+                                                     >
+                                            {users.map((user, index) => {
+                                               return (
+                                                <option value={user.id} >{user.username}
+                                                </option>
+                                               );
+                                            })}
+                                            </select>
+                                        </div>
                                      </div>
 
                                     </Form.Group>
                                         <div className="float-right">
                                           <Button
                                             variant="primary"
-                                            type="submit"
-                                            onClick={onSubmit}
+
+                                           type="button"
+                                            onClick={() => onUserSubmit(projectId,userId)}
                                             className="mx-2"
-                                          >
+                                            >
                                             Add
                                           </Button>
                                         </div>
