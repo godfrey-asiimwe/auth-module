@@ -6,6 +6,7 @@ import { useAuthActions, useAuthUser } from 'use-eazy-auth'
 import AsyncSelect from 'react-select/async';
 import API from "../API"
 import auth from "../auth"
+import '../App.css'
 
 
 const AddProject = ({ onAdd }) => {
@@ -19,7 +20,10 @@ const AddProject = ({ onAdd }) => {
   const [projectId, setProjectId] = useState(null);
   const [projects, setProjects] = useState([]);
 
+  const [first_name, setFirstname]=useState("")
+  const [last_name, setLastname]=useState("")
   const [users, setUsers] = useState([]);
+  const [projectusers, setProjectUsers] = useState([]);
   const [userId, setUserId] = useState(null);
   const [inputValue, setValue] = useState('');
   const [selectedValue, setSelectedValue] = useState(null);
@@ -48,10 +52,19 @@ const AddProject = ({ onAdd }) => {
     fetchData();
   }, []);
 
+  //select users per project
+  const onViewUsers = (id) => {
+    let item = {first_name,last_name};
+    auth.get("/prousers/"+id)
+      .then((res) => {
+        setProjectUsers(res.data);
+      })
+      .catch(console.error);
+  };
+
+ //attach a user to a project
   const onUserSubmit = (projectId,userId) => {
-
     let item = {userId,projectId};
-
     if (window.confirm("Are you sure you want to add a user to this project?")) {
        auth.post("/create/", item).then((res) => fetchData())
         .then()
@@ -59,9 +72,9 @@ const AddProject = ({ onAdd }) => {
           alert("user already exits");
         });
     }
-
   };
 
+  //refreshing the project list
   const refreshProjects = () => {
     API.get("/all/")
       .then((res) => {
@@ -70,6 +83,7 @@ const AddProject = ({ onAdd }) => {
       .catch(console.error);
   };
 
+  //on saving the project
   const onSubmit = (e) => {
     e.preventDefault();
     let item = { name, description, start_date,end_date,type };
@@ -83,7 +97,7 @@ const AddProject = ({ onAdd }) => {
 
   };
 
-
+  //on editing the project
   const onUpdate = (id) => {
     let item = {name,description,start_date,end_date,type};
     API.post('/update/'+id, item).then((res) => refreshProjects());
@@ -95,6 +109,7 @@ const AddProject = ({ onAdd }) => {
     setType("");
   };
 
+  //deleting the project
   const onDelete = (id) => {
       if (window.confirm("Are you sure you want to delete this project?")) {
        API.delete('/delete/'+id).then((res) => refreshProjects())
@@ -106,9 +121,9 @@ const AddProject = ({ onAdd }) => {
       alert("Project with ID " + id + " was deleted successfully");
 
     }
-
   };
 
+  //on selecting the project
   function selectProject(id) {
     let item = projects.filter((project) => project.id === id)[0];
     setName(item.name);
@@ -117,7 +132,6 @@ const AddProject = ({ onAdd }) => {
     setEndDate(item.end_date);
     setType(item.type);
     setProjectId(item.id);
-
   }
 
 
@@ -178,6 +192,8 @@ const AddProject = ({ onAdd }) => {
                 </div>
             </nav>
         </header>
+
+
          <aside class="left-sidebar" data-sidebarbg="skin6">
             <div class="scroll-sidebar" data-sidebarbg="skin6">
                 <nav class="sidebar-nav">
@@ -307,7 +323,6 @@ const AddProject = ({ onAdd }) => {
                     </div>
                 </div>
 
-
                  <div id="adduser-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -320,19 +335,16 @@ const AddProject = ({ onAdd }) => {
 
                                <Form onSubmit={onUserSubmit} className="mt-4">
                                     <Form.Group className="mb-3" controlId="formBasicName">
-
                                      <div className="col-md-12">
-
                                         <div class="form-group mb-4">
                                             <label for="exampleFormControlSelect1">Select User</label>
-                                            <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setUserId(e.target.value)}
-                                                     >
-                                            {users.map((user, index) => {
-                                               return (
-                                                <option value={user.id} >{user.username}
-                                                </option>
-                                               );
-                                            })}
+                                            <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setUserId(e.target.value)}>
+                                                {users.map((user, index) => {
+                                                   return (
+                                                    <option value={user.id} >{user.username}
+                                                    </option>
+                                                   );
+                                                })}
                                             </select>
                                         </div>
                                      </div>
@@ -341,20 +353,47 @@ const AddProject = ({ onAdd }) => {
                                         <div className="float-right">
                                           <Button
                                             variant="primary"
-
-                                           type="button"
+                                            type="button"
                                             onClick={() => onUserSubmit(projectId,userId)}
                                             className="mx-2"
                                             >
                                             Add
                                           </Button>
                                         </div>
-                                  </Form>
+                                   </Form>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                 <div id="viewUser-modal" class="modal fade viewUser-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                 <div class="table-responsive">
+                                    <table class="table no-wrap v-middle mb-0">
+                                        <thead>
+                                            <tr class="border-0">
+                                                <th class="border-0 font-14 font-weight-medium text-muted">First name</th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Last Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {projectusers.map((user, index) => {
+                                                return (
+                                                  <tr key="">
+                                                    <td>{user.first_name}</td>
+                                                    <td>{user.last_name}</td>
+                                                  </tr>
+                                                );
+                                              })}
+                                        </tbody>
+                                    </table>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
 
                  <div class="row">
                     <div class="col-12">
@@ -372,8 +411,6 @@ const AddProject = ({ onAdd }) => {
                                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
                                                 <a class="dropdown-item" data-toggle="modal"
                                                     data-target="#login-modal">Create</a>
-                                                 <a class="dropdown-item" data-toggle="modal"
-                                                    data-target="#adduser-modal">Add User</a>
                                             </div>
                                         </div>
                                     </div>
@@ -393,6 +430,7 @@ const AddProject = ({ onAdd }) => {
                                                  End Date
                                                 </th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted">Type</th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Members</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted">Actions</th>
                                             </tr>
                                         </thead>
@@ -409,10 +447,16 @@ const AddProject = ({ onAdd }) => {
                                                     {project.type}
                                                     </td>
                                                     <td>
-                                                        <a data-toggle="modal" data-target="#login-modal" onClick={() => selectProject(project.id)}>
-                                                        <i class="icon-pencil mr-2 text-success" ></i></a>
+                                                        <a data-toggle="modal" data-target="#viewUser-modal" onClick={() => onViewUsers(project.id)}>
+                                                            <i class="icon-user" ></i>
+                                                        </a>
                                                         <a data-toggle="modal" data-target="#adduser-modal" onClick={() => selectProject(project.id)}>
                                                         <i class="icon-plus mr-2 text-success" ></i></a>
+                                                    </td>
+                                                    <td>
+                                                        <a data-toggle="modal" data-target="#login-modal" onClick={() => selectProject(project.id)}>
+                                                        <i class="icon-pencil mr-2 text-success" ></i></a>
+
                                                         <a onClick={() => onDelete(project.id)}>
                                                         <i class="fa fa-times" ></i></a>
                                                     </td>

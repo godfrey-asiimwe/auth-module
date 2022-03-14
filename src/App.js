@@ -70,6 +70,8 @@ export default function App() {
             <AuthRoute path="/projects" exact redirectTo='/login'>
               <Projects />
             </AuthRoute>
+            //add components here
+
           </Switch>
         </Router>
       </ConfigureAuth>

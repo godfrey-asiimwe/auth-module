@@ -37,7 +37,10 @@
   }
 }
 
-
 .dark-logo{
     width:100px !important;
+}
+
+.viewUser-modal{
+    margin-top:230px;
 }
