@@ -44,3 +44,7 @@
 .viewUser-modal{
     margin-top:230px;
 }
+
+.pointer-link {
+  cursor: pointer;
+}
