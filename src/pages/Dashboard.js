@@ -5,6 +5,7 @@ import { useAuthActions, useAuthUser } from 'use-eazy-auth'
 import ContactCard from '../components/ContactCard'
 import API from "../API"
 import Projects from './Projects'
+import Tasks from './Taskss'
 
 const ContactsState = rj({
   effectCaller: rj.configured(),
@@ -93,9 +94,9 @@ export default function AddressBook() {
                                     class="hide-menu">Projects
                                 </span></a>
                         </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="app-chat.html"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link pointer-link" onClick={() => setState('tasks') }
                                 aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
-                                    class="hide-menu">Plan</span></a></li>
+                                    class="hide-menu">Tasks</span></a></li>
                         <li class="sidebar-item">
                         <a class="sidebar-link sidebar-link" href="app-calendar.html"
                                 aria-expanded="false">
@@ -177,6 +178,7 @@ export default function AddressBook() {
                 </div>
                )}
               {state === 'projects' && <Projects />}
+              {state === 'tasks' && <Tasks />}
           </div>
          </div>
 
