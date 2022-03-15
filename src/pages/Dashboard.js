@@ -175,16 +175,16 @@ export default function AddressBook() {
                         </div>
                     </div>
                 </div>
-                 )}
-
-          {state === 'projects' && <Projects />}
+               )}
+              {state === 'projects' && <Projects />}
           </div>
          </div>
 
        <footer class="footer text-center text-muted">
-            All Rights Reserved by Coseke. Designed and Developed by <a
-                href="">Coseke U LTD</a>.
+            All Rights Reserved by Coseke. Designed and Developed by
+            <a href="">Coseke U LTD</a>.
        </footer>
+
       </div>
   )
 }
