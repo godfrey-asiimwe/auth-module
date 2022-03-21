@@ -136,192 +136,91 @@ const AddProject = ({ onAdd }) => {
 
 
   return (
-   <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
-        <header class="topbar" data-navbarbg="skin6">
-            <nav class="navbar top-navbar navbar-expand-md">
-                <div class="navbar-header" data-logobg="skin6">
-                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
-                            class="ti-menu ti-close"></i></a>
 
-                    <div class="navbar-brand">
-
-                        <a href="index.html">
-                            <b class="logo-icon" >
-                                <img src="../assets/images/logo.png" alt="homepage" class="dark-logo" />
-
-                                <img src="../assets/images/logo.png" alt="homepage" class="light-logo" />
-                            </b>
-                            <span class="logo-text">
-                            </span>
+    <div class="card">
+        <div class="card-body">
+        <div id="login-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center mt-2 mb-4">
+                        <a href="index.html" class="text-success">
+                            <span></span>
                         </a>
                     </div>
-                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
-                        data-toggle="collapse" data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
-                            class="ti-more"></i></a>
-                </div>
-                <div class="navbar-collapse collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
 
+                   <Form onSubmit={onSubmit} className="mt-4">
+                        <Form.Group className="mb-3" controlId="formBasicName">
+                          <Form.Label>Name</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter Name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                          />
+                        </Form.Group>
 
-                    </ul>
-                    <ul class="navbar-nav float-right">
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark">{user.username}</span> <i data-feather="chevron-down"
-                                        class="svg-icon"></i></span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    My Profile</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" onClick={logout} ><i data-feather="power"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    Logout</a>
-                                <div class="dropdown-divider"></div>
-                                <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">View
-                                        Profile</a></div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-
-
-         <aside class="left-sidebar" data-sidebarbg="skin6">
-            <div class="scroll-sidebar" data-sidebarbg="skin6">
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/"
-                                aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
-                                    class="hide-menu">Dashboard</span></a></li>
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Project Plan</span></li>
-
-                        <li class="sidebar-item">
-                                <a class="sidebar-link" href="/projects"
-                                aria-expanded="false">
-                                    <i data-feather="tag" class="feather-icon"></i><span
-                                        class="hide-menu">
-                                        Projects
-                                    </span>
-                                </a>
-                        </li>
-                        <li class="sidebar-item">
-                                <a class="sidebar-link sidebar-link" href="app-chat.html"
-                                aria-expanded="false">
-                                <i data-feather="message-square" class="feather-icon"></i>
-                                <span class="hide-menu">Plan
-                                </span></a></li>
-                        <li class="sidebar-item">
-                        <a class="sidebar-link sidebar-link" href="app-calendar.html"
-                                aria-expanded="false">
-                                <i data-feather="calendar" class="feather-icon"></i><span
-                                    class="hide-menu">Schedule</span>
-                                    </a></li>
-                        <li class="list-divider"></li>
-                    </ul>
-                </nav>
-            </div>
-         </aside>
-         <div class="page-wrapper">
-            <div class="page-breadcrumb">
-                <div class="row">
-                    <div class="col-7 align-self-center">
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Projects</h3>
-                    </div>
-                </div>
-            </div>
-
-             <div class="container-fluid">
-                <div id="login-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <div class="text-center mt-2 mb-4">
-                                    <a href="index.html" class="text-success">
-                                        <span></span>
-                                    </a>
-                                </div>
-
-                               <Form onSubmit={onSubmit} className="mt-4">
-                                    <Form.Group className="mb-3" controlId="formBasicName">
-                                      <Form.Label>Name</Form.Label>
-                                      <Form.Control
-                                        type="text"
-                                        placeholder="Enter Name"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                      />
-                                    </Form.Group>
-
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="3" placeholder="Text Here..."
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        ></textarea>
-                                    </div>
-
-                                    <Form.Group className="mb-3" controlId="formBasicStarring">
-                                      <Form.Label>Start Date</Form.Label>
-                                      <Form.Control
-                                        type="date"
-                                        placeholder="Enter Start_date"
-                                        value={start_date}
-                                        onChange={(e) => setStartDate(e.target.value)}
-                                      />
-                                    </Form.Group>
-
-                                    <Form.Group className="mb-3" controlId="formBasicStarring">
-                                      <Form.Label>End Date</Form.Label>
-                                      <Form.Control
-                                        type="date"
-                                        placeholder="Enter End Date"
-                                        value={end_date}
-                                        onChange={(e) => setEndDate(e.target.value)}
-                                      />
-                                    </Form.Group>
-
-                                     <Form.Group className="mb-3" controlId="formBasicStarring">
-                                      <Form.Label>Type</Form.Label>
-                                      <Form.Control
-                                        type="text"
-                                        placeholder="Enter Type"
-                                        value={type}
-                                        onChange={(e) => setType(e.target.value)}
-                                      />
-                                    </Form.Group>
-
-                                    <div className="float-right">
-                                      <Button
-                                        variant="primary"
-                                        type="submit"
-                                        onClick={onSubmit}
-                                        className="mx-2"
-                                      >
-                                        Save
-                                      </Button>
-                                      <Button
-                                        variant="primary"
-                                        type="button"
-                                        onClick={() => onUpdate(projectId)}
-                                        className="mx-2"
-                                      >
-                                        Update
-                                      </Button>
-                                    </div>
-                                  </Form>
-
-                            </div>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" placeholder="Text Here..."
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            ></textarea>
                         </div>
-                    </div>
+
+                        <Form.Group className="mb-3" controlId="formBasicStarring">
+                          <Form.Label>Start Date</Form.Label>
+                          <Form.Control
+                            type="date"
+                            placeholder="Enter Start_date"
+                            value={start_date}
+                            onChange={(e) => setStartDate(e.target.value)}
+                          />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicStarring">
+                          <Form.Label>End Date</Form.Label>
+                          <Form.Control
+                            type="date"
+                            placeholder="Enter End Date"
+                            value={end_date}
+                            onChange={(e) => setEndDate(e.target.value)}
+                          />
+                        </Form.Group>
+
+                         <Form.Group className="mb-3" controlId="formBasicStarring">
+                          <Form.Label>Type</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter Type"
+                            value={type}
+                            onChange={(e) => setType(e.target.value)}
+                          />
+                        </Form.Group>
+
+                        <div className="float-right">
+                          <Button
+                            variant="primary"
+                            type="submit"
+                            onClick={onSubmit}
+                            className="mx-2"
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            variant="primary"
+                            type="button"
+                            onClick={() => onUpdate(projectId)}
+                            className="mx-2"
+                          >
+                            Update
+                          </Button>
+                        </div>
+                   </Form>
                 </div>
+            </div>
+        </div>
+    </div>
+
 
                  <div id="adduser-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
@@ -348,19 +247,18 @@ const AddProject = ({ onAdd }) => {
                                             </select>
                                         </div>
                                      </div>
-
                                     </Form.Group>
-                                        <div className="float-right">
-                                          <Button
-                                            variant="primary"
-                                            type="button"
-                                            onClick={() => onUserSubmit(projectId,userId)}
-                                            className="mx-2"
-                                            >
-                                            Add
-                                          </Button>
-                                        </div>
-                                   </Form>
+                                    <div className="float-right">
+                                      <Button
+                                        variant="primary"
+                                        type="button"
+                                        onClick={() => onUserSubmit(projectId,userId)}
+                                        className="mx-2"
+                                        >
+                                        Add
+                                      </Button>
+                                    </div>
+                               </Form>
                             </div>
                         </div>
                     </div>
@@ -394,89 +292,75 @@ const AddProject = ({ onAdd }) => {
                         </div>
                     </div>
                  </div>
-
-                 <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-4">
-                                    <h4 class="card-title">List of Projects</h4>
-                                    <div class="ml-auto">
-                                        <div class="dropdown sub-dropdown">
-                                            <button class="btn btn-link text-muted dropdown-toggle" type="button"
-                                                id="dd1" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <i data-feather="more-vertical"></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
-                                                <a class="dropdown-item" data-toggle="modal"
-                                                    data-target="#login-modal">Create</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table no-wrap v-middle mb-0">
-                                        <thead>
-                                            <tr class="border-0">
-                                                <th class="border-0 font-14 font-weight-medium text-muted px-2">
-                                                Name
-                                                </th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted">Description</th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted text-left">
-                                                Start Date
-                                                </th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted text-left">
-                                                 End Date
-                                                </th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted">Type</th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted">Members</th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {projects.map((project, index) => {
-                                                return (
-                                                  <tr key="">
-                                                    <th hidden="true" scope="row">{project.id}</th>
-                                                    <td>{project.name}</td>
-                                                    <td>{project.description}</td>
-                                                    <td>{project.start_date}</td>
-                                                    <td>{project.end_date}</td>
-                                                    <td>
-                                                    {project.type}
-                                                    </td>
-                                                    <td>
-                                                        <a data-toggle="modal" data-target="#viewUser-modal" onClick={() => onViewUsers(project.id)}>
-                                                            <i class="icon-user" ></i>
-                                                        </a>
-                                                        <a data-toggle="modal" data-target="#adduser-modal" onClick={() => selectProject(project.id)}>
-                                                        <i class="icon-plus mr-2 text-success" ></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a data-toggle="modal" data-target="#login-modal" onClick={() => selectProject(project.id)}>
-                                                        <i class="icon-pencil mr-2 text-success" ></i></a>
-
-                                                        <a onClick={() => onDelete(project.id)}>
-                                                        <i class="fa fa-times" ></i></a>
-                                                    </td>
-                                                  </tr>
-                                                );
-                                              })}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+            <div class="d-flex align-items-center mb-4">
+                <h4 class="card-title">List of Projects</h4>
+                <div class="ml-auto">
+                    <div class="dropdown sub-dropdown">
+                        <button class="btn btn-link text-muted dropdown-toggle" type="button"
+                            id="dd1" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i data-feather="more-vertical"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
+                            <a class="dropdown-item" data-toggle="modal"
+                                data-target="#login-modal">Create</a>
                         </div>
                     </div>
                 </div>
-             </div>
-         </div>
-           <footer class="footer text-center text-muted">
-                All Rights Reserved by Coseke. Designed and Developed by <a
-                    href="">Coseke U LTD</a>.
-            </footer>
-      </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table no-wrap v-middle mb-0">
+                    <thead>
+                        <tr class="border-0">
+                            <th class="border-0 font-14 font-weight-medium text-muted px-2">
+                            Name
+                            </th>
+                            <th class="border-0 font-14 font-weight-medium text-muted">Description</th>
+                            <th class="border-0 font-14 font-weight-medium text-muted text-left">
+                            Start Date
+                            </th>
+                            <th class="border-0 font-14 font-weight-medium text-muted text-left">
+                             End Date
+                            </th>
+                            <th class="border-0 font-14 font-weight-medium text-muted">Type</th>
+                            <th class="border-0 font-14 font-weight-medium text-muted">Members</th>
+                            <th class="border-0 font-14 font-weight-medium text-muted">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {projects.map((project, index) => {
+                            return (
+                              <tr key="">
+                                <th hidden="true" scope="row">{project.id}</th>
+                                <td>{project.name}</td>
+                                <td>{project.description}</td>
+                                <td>{project.start_date}</td>
+                                <td>{project.end_date}</td>
+                                <td>
+                                {project.type}
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" data-target="#viewUser-modal" onClick={() => onViewUsers(project.id)}>
+                                        <i class="icon-user" ></i>
+                                    </a>
+                                    <a data-toggle="modal" data-target="#adduser-modal" onClick={() => selectProject(project.id)}>
+                                    <i class="icon-plus mr-2 text-success" ></i></a>
+                                </td>
+                                <td>
+                                    <a data-toggle="modal" data-target="#login-modal" onClick={() => selectProject(project.id)}>
+                                    <i class="icon-pencil mr-2 text-success" ></i></a>
+
+                                    <a onClick={() => onDelete(project.id)}>
+                                    <i class="fa fa-times" ></i></a>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
   );
 };

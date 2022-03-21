@@ -4,6 +4,8 @@ import { ajax } from 'rxjs/ajax'
 import { useAuthActions, useAuthUser } from 'use-eazy-auth'
 import ContactCard from '../components/ContactCard'
 import API from "../API"
+import Projects from './Projects'
+import Tasks from './Taskss'
 
 const ContactsState = rj({
   effectCaller: rj.configured(),
@@ -18,6 +20,7 @@ export default function AddressBook() {
   const { logout } = useAuthActions()
   const [search, setSearch] = useState('')
   const [{ data: contacts }] = useRunRj(ContactsState, [search], false)
+  const [state, setState] = useState('start')
 
   return (
       <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
@@ -80,20 +83,20 @@ export default function AddressBook() {
             <div class="scroll-sidebar" data-sidebarbg="skin6">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href=""
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link pointer-link"  onClick={() => setState('start')}
                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
                                     class="hide-menu">Dashboard</span></a></li>
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Project Plan</span></li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link" href="/projects"
+                        <li class="sidebar-item"> <a class="sidebar-link pointer-link " onClick={() => setState('projects') }
                                 aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span
                                     class="hide-menu">Projects
                                 </span></a>
                         </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="app-chat.html"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link pointer-link" onClick={() => setState('tasks') }
                                 aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
-                                    class="hide-menu">Plan</span></a></li>
+                                    class="hide-menu">Tasks</span></a></li>
                         <li class="sidebar-item">
                         <a class="sidebar-link sidebar-link" href="app-calendar.html"
                                 aria-expanded="false">
@@ -105,24 +108,10 @@ export default function AddressBook() {
                 </nav>
             </div>
          </aside>
-         <div class="page-wrapper">
-            <div class="page-breadcrumb">
-                <div class="row">
-                    <div class="col-7 align-self-center">
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Good Morning {user.first_name}</h3>
-                        <div class="d-flex align-items-center">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
+         <div class="page-wrapper">
              <div class="container-fluid">
+              {state === 'start' && (
                 <div class="card-group">
                     <div class="card border-right">
                         <div class="card-body">
@@ -187,15 +176,17 @@ export default function AddressBook() {
                         </div>
                     </div>
                 </div>
-
-
-             </div>
-
+               )}
+              {state === 'projects' && <Projects />}
+              {state === 'tasks' && <Tasks />}
+          </div>
          </div>
-           <footer class="footer text-center text-muted">
-                All Rights Reserved by Coseke. Designed and Developed by <a
-                    href="">Coseke U LTD</a>.
-            </footer>
+
+       <footer class="footer text-center text-muted">
+            All Rights Reserved by Coseke. Designed and Developed by
+            <a href="">Coseke U LTD</a>.
+       </footer>
+
       </div>
   )
 }
