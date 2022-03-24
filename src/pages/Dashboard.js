@@ -6,6 +6,7 @@ import ContactCard from '../components/ContactCard'
 import API from "../API"
 import Projects from './Projects'
 import Tasks from './Taskss'
+import ChangePassword from './changePassword'
 
 const ContactsState = rj({
   effectCaller: rj.configured(),
@@ -15,12 +16,16 @@ const ContactsState = rj({
     }),
 })
 
+
+
 export default function AddressBook() {
   const { user } = useAuthUser()
   const { logout } = useAuthActions()
   const [search, setSearch] = useState('')
   const [{ data: contacts }] = useRunRj(ContactsState, [search], false)
   const [state, setState] = useState('start')
+
+
 
   return (
       <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
@@ -32,7 +37,6 @@ export default function AddressBook() {
                             class="ti-menu ti-close"></i></a>
 
                     <div class="navbar-brand">
-
                         <a href="index.html">
                             <b class="logo-icon" >
                                 <img src="../assets/images/logo.png" alt="homepage" class="dark-logo" />
@@ -45,8 +49,9 @@ export default function AddressBook() {
                     </div>
                     <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
                         data-toggle="collapse" data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
-                            class="ti-more"></i></a>
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="ti-more"></i>
+                    </a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
@@ -54,7 +59,6 @@ export default function AddressBook() {
 
                     </ul>
                     <ul class="navbar-nav float-right">
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -63,9 +67,9 @@ export default function AddressBook() {
                                         class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
+                                <a class="dropdown-item" onClick={() => setState('changepassword') }><i data-feather="user"
                                         class="svg-icon mr-2 ml-1"></i>
-                                    My Profile</a>
+                                    Change Password</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" onClick={logout} ><i data-feather="power"
                                         class="svg-icon mr-2 ml-1"></i>
@@ -179,6 +183,7 @@ export default function AddressBook() {
                )}
               {state === 'projects' && <Projects />}
               {state === 'tasks' && <Tasks />}
+              {state === 'changepassword' && <ChangePassword />}
           </div>
          </div>
 
