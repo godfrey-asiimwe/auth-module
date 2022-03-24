@@ -76,7 +76,16 @@ const AddBudget = ({ onAdd }) => {
 
                    <Form onSubmit={onSubmit} className="mt-4">
                    <Form.Group className="mb-3" controlId="formBasicName">
-                          <Form.Label>Budget Id</Form.Label>
+                          <Form.Label>Budget Name</Form.Label>
+                          {budgets.map((budget, index) => {
+                            return (
+                              <tr key="">
+                                <select>
+                                <option value={budget.budgetId}>{budget.budgetName}</option>
+                                </select>
+                                </tr>
+                            );
+                          })}
                           <Form.Control
                             type="text"
                             placeholder="Enter Item"
