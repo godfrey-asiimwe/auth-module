@@ -24,9 +24,12 @@ export default function Login() {
       }}
     >
 
-      <div className="col-md-4 offset-md-4 auth-wrapper  login-wrapper d-flex no-block justify-content-center align-items-center position-relative">
+    <div class="login-wrap">
+      <a class="" href=""></a>
+
+       <div class="semaphore-classic">
         <div className='mb-3 ' >
-          <h1>Login</h1>
+          <h4 class="login-header">Welcome !</h4>
         </div>
         <div className="form-group">
           <input
@@ -61,7 +64,11 @@ export default function Login() {
             Bad combination of username and password.
           </div>
         )}
+
       </div>
+    </div>
+
+
 
     </form>
 
