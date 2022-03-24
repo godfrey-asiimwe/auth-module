@@ -6,6 +6,7 @@ import ContactCard from '../components/ContactCard'
 import API from "../API"
 import Projects from './Projects'
 import Tasks from './Taskss'
+import Budget from './Budget'
 
 const ContactsState = rj({
   effectCaller: rj.configured(),
@@ -94,6 +95,11 @@ export default function AddressBook() {
                                     class="hide-menu">Projects
                                 </span></a>
                         </li>
+                        <li class="sidebar-item"> <a class="sidebar-link pointer-link " onClick={() => setState('budgets') }
+                                aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span
+                                    class="hide-menu">Budgets
+                                </span></a>
+                        </li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link pointer-link" onClick={() => setState('tasks') }
                                 aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
                                     class="hide-menu">Tasks</span></a></li>
@@ -179,6 +185,7 @@ export default function AddressBook() {
                )}
               {state === 'projects' && <Projects />}
               {state === 'tasks' && <Tasks />}
+              {state === 'budgets' && <Budget/>}
           </div>
          </div>
 
