@@ -16,7 +16,7 @@ const AddBudget = ({ onAdd }) => {
   const [item_name, setItem] = useState("");
   const [description, setDescription] = useState("");
   const [item_cost, setAmount] = useState("");
-  const [budgetId, setBudgetId] = useState(null);
+  const [budget_id, setBudgetId] = useState(null);
   const [budgets, setBudgets] = useState([]);
   const [inputValue, setValue] = useState('');
   const [selectedValue, setSelectedValue] = useState(null);
@@ -50,9 +50,9 @@ const AddBudget = ({ onAdd }) => {
   //assign budget item to a project
   const onSubmit = (e) => {
     e.preventDefault();
-    let item = {budgetId, item_name, description, item_cost};
+    let item = {budget_id, item_name, description, item_cost};
     budgetAPI.post("/budgetapi/v1/create_budget_item", item).then(() => fetchData());
-    setBudgetId("");
+   
     setItem("");
     setAmount("");
     setDescription("");
@@ -77,21 +77,17 @@ const AddBudget = ({ onAdd }) => {
                    <Form onSubmit={onSubmit} className="mt-4">
                    <Form.Group className="mb-3" controlId="formBasicName">
                           <Form.Label>Budget Name</Form.Label>
+                          <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setBudgetId(e.target.value)}>
                           {budgets.map((budget, index) => {
                             return (
-                              <tr key="">
-                                <select>
-                                <option value={budget.budgetId}>{budget.budgetName}</option>
-                                </select>
-                                </tr>
+                              
+                                
+                                <option value={budget.budget_id}>{budget.budgetName}</option>
+                                
                             );
                           })}
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter Item"
-                            value={budgetId}
-                            onChange={(e) => setBudgetId(e.target.value)}
-                          />
+                          </select>
+                                
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicName">
                           <Form.Label>Budget Item</Form.Label>
