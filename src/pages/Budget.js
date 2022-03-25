@@ -9,6 +9,14 @@ import auth from "../auth"
 import '../App.css'
 import budgetAPI from "../budgetAPI"
 
+// import accordion packages
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import Typography from "@material-ui/core/Typography";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+
+
 
 const AddBudget = ({ onAdd }) => {
   const { user } = useAuthUser()
@@ -76,7 +84,7 @@ const AddBudget = ({ onAdd }) => {
 
                    <Form onSubmit={onSubmit} className="mt-4">
                    <Form.Group className="mb-3" controlId="formBasicName">
-                          <Form.Label>Budget Name</Form.Label>
+                          <Form.Label>Budget</Form.Label>
                           <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setBudgetId(e.target.value)}>
                           {budgets.map((budget, index) => {
                             return (
@@ -90,7 +98,7 @@ const AddBudget = ({ onAdd }) => {
                                 
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicName">
-                          <Form.Label>Budget Item</Form.Label>
+                          <Form.Label>Item</Form.Label>
                           <Form.Control
                             type="text"
                             placeholder="Enter Item"
@@ -100,7 +108,7 @@ const AddBudget = ({ onAdd }) => {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicName">
                           <Form.Label>Description</Form.Label>
-                          <Form.Control
+                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                             type="text"
                             placeholder="Enter Item"
                             value={description}
@@ -161,36 +169,47 @@ const AddBudget = ({ onAdd }) => {
                     </div>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="table no-wrap v-middle mb-0">
-                    <thead>
-                        <tr class="border-0">
-                          <th class="border-0 font-14 font-weight-medium text-muted px-2">
-                              Budget Name
-                              </th>
-                            <th class="border-0 font-14 font-weight-medium text-muted px-2">
-                              Project Name
-                            </th>
+            <div>
+                
+                              <h5>Budget</h5>
                             
-                        </tr>
-                    </thead>
-                    <tbody>
+                    {/* display budget data */}
                         {budgets.map((budget, index) => {
                             return (
-                              <tr key="">
-                                <th hidden="true" scope="row">{budget.budget_id}</th>
-                                <td>{budget.budgetName}</td>
-                                <td>{budget.projectId}</td>
-                                
-                               
-                              </tr>
+                              <div>
+                              <Accordion>
+                                  <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                  >
+                                    <Typography>{budget.budgetName}</Typography>
+                                  </AccordionSummary>
+                                  <AccordionDetails>
+                                    <Typography>
+                                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                                      malesuada lacus ex, sit amet blandit leo lobortis eget.
+                                    </Typography>
+                                  </AccordionDetails>
+                                </Accordion>{<br/>}
+                                </div>
+                              
                             );
                           })}
-                    </tbody>
-                </table>
+
+
+                    
+                </div>
+                <div>
+      
+      
+    </div>
+
+                
             </div>
         </div>
-    </div>
+        
+    
 
   );
 };
