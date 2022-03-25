@@ -32,6 +32,95 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Planning & Reporting Tool</title>
+
+      <style>
+    body {
+      margin: 0; }
+
+    .login-wrap {
+      position: relative;
+      min-height: 80vh;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center; }
+      .login-wrap:before {
+        position: absolute;
+        content: ' ';
+        background-repeat: no-repeat;
+        background-position: left top;
+        z-index: -1;
+        top: -15px;
+        left: 0;
+        width: 503.356px;
+        height: 695.274px;
+        background-image: url("https://storage.googleapis.com/semaphore-public-assets/public/login-back-left.svg"); }
+      .login-wrap:after {
+        position: absolute;
+        content: ' ';
+        background-repeat: no-repeat;
+        background-position: left top;
+        z-index: -1;
+        bottom: 0;
+        right: 0;
+        width: 372.888px;
+        height: 752.737px;
+        background-image: url("https://storage.googleapis.com/semaphore-public-assets/public/login-back-right.svg"); }
+      .login-wrap a.logo {
+        background-repeat: no-repeat;
+        background-position: left top;
+        background-image: url("https://storage.googleapis.com/semaphore-public-assets/public/semaphore-logo-full.png");
+        background-size: contain;
+        width: 139.287px;
+        height: 19px;
+        display: block; }
+      .login-wrap h1.login-header {
+        font-family: proxima-nova, sans-serif;
+        font-weight: 700;
+        font-style: normal;
+        font-size: 58px;
+        margin-top: 98px;
+        margin-bottom: 15px; }
+      .login-wrap a.login.button {
+        font-family: proxima-nova, sans-serif;
+        font-weight: 700;
+        font-style: normal;
+        padding: 10px 19px 12px 50px;
+        background-color: #029D74;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-left: 20px;
+        color: #ffffff;
+        background-repeat: no-repeat;
+        background-position: left 15px center;
+        margin-bottom: 135px; }
+        @media screen and (min-width: 1000px) {
+          .login-wrap a.login.button {
+            -webkit-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease; } }
+        .login-wrap a.login.button:hover {
+          border-color: #0AB488;
+          background-color: #0AB488; }
+      .login-wrap .semaphore-classic {
+        font-family: proxima-nova, sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 18px; }
+        .login-wrap .semaphore-classic a.link {
+          color: #029D74; }
+          .login-wrap .semaphore-classic a.link:hover {
+            color: #0AB488; }
+  </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -79,3 +168,4 @@
 
   </body>
 </html>
+

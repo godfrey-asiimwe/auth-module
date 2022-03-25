@@ -1,5 +1,8 @@
 import React,{ useState, useEffect } from 'react';
 import { ListGroup, Card, Button, Form } from "react-bootstrap";
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import {FaRegCopy, FaList,FaEllipsisV, FaShareAlt} from 'react-icons/fa';
+import {RiSendPlaneFill, RiDeleteBin6Line} from 'react-icons/ri';
 import { rj, useRunRj } from 'react-rocketjump'
 import { ajax } from 'rxjs/ajax'
 import { useAuthActions, useAuthUser } from 'use-eazy-auth'
@@ -7,6 +10,7 @@ import AsyncSelect from 'react-select/async';
 import API from "../API"
 import auth from "../auth"
 import '../App.css'
+import '../coupon.css'
 
 
 const AddProject = ({ onAdd }) => {
@@ -134,8 +138,17 @@ const AddProject = ({ onAdd }) => {
     setProjectId(item.id);
   }
 
+   const copyCoupon = (e, data) => {
+    var coupon = data.copy
+    navigator.clipboard.writeText(coupon)
+    alert(`Coupon code ${coupon} copied to your clipboard`)
+  }
+
 
   return (
+     <>
+
+
 
     <div class="card">
         <div class="card-body">
@@ -332,27 +345,77 @@ const AddProject = ({ onAdd }) => {
                             return (
                               <tr key="">
                                 <th hidden="true" scope="row">{project.id}</th>
-                                <td>{project.name}</td>
-                                <td>{project.description}</td>
-                                <td>{project.start_date}</td>
-                                <td>{project.end_date}</td>
+
                                 <td>
-                                {project.type}
+                                <ContextMenuTrigger id="contextmenu">
+                                {project.name}
+                                </ContextMenuTrigger>
                                 </td>
                                 <td>
+                                <ContextMenuTrigger id="contextmenu">
+                                {project.description}
+                                </ContextMenuTrigger>
+                                </td>
+                                <td>
+                                <ContextMenuTrigger id="contextmenu">
+                                {project.start_date}
+                                </ContextMenuTrigger>
+                                </td>
+                                <td>
+                                <ContextMenuTrigger id="contextmenu">
+                                {project.end_date}
+                                </ContextMenuTrigger>
+                                </td>
+                                <td>
+                                 <ContextMenuTrigger id="contextmenu">
+                                {project.type}
+                                 </ContextMenuTrigger>
+                                </td>
+                                <td>
+                                <ContextMenuTrigger id="contextmenu">
                                     <a data-toggle="modal" data-target="#viewUser-modal" onClick={() => onViewUsers(project.id)}>
-                                        <i class="icon-user" ></i>
+                                        <i class="icon-user" ></i> View members
                                     </a>
                                     <a data-toggle="modal" data-target="#adduser-modal" onClick={() => selectProject(project.id)}>
-                                    <i class="icon-plus mr-2 text-success" ></i></a>
+                                    <i class="icon-plus mr-2 text-success" ></i> add members </a>
+                                    <a data-toggle="modal" data-target="#adduser-modal" onClick={() => selectProject(project.id)}>
+                                     View budget </a>
+                                </ContextMenuTrigger>
                                 </td>
                                 <td>
+                                 <ContextMenuTrigger id="contextmenu">
                                     <a data-toggle="modal" data-target="#login-modal" onClick={() => selectProject(project.id)}>
                                     <i class="icon-pencil mr-2 text-success" ></i></a>
-
                                     <a onClick={() => onDelete(project.id)}>
                                     <i class="fa fa-times" ></i></a>
+                                 </ContextMenuTrigger>
                                 </td>
+                                <ContextMenu id="contextmenu">
+                                    <MenuItem data={{copy: 'MI50'}} onClick={copyCoupon}>
+                                      <FaRegCopy className="copy"/>
+                                      <span>Copy</span>
+                                    </MenuItem>
+                                    <MenuItem >
+                                      <FaEllipsisV className="openwith"/>
+                                      <span>View Members</span>
+                                    </MenuItem>
+                                    <MenuItem >
+                                      <FaList className="watchlist"/>
+                                      <span>View Budget</span>
+                                    </MenuItem>
+                                    <MenuItem>
+                                      <RiSendPlaneFill className="send"/>
+                                      <span>View Tasks</span>
+                                    </MenuItem>
+                                    <MenuItem  onClick={() => onDelete(project.id)}>
+                                      <RiDeleteBin6Line className="delete"/>
+                                      <span>Delete</span>
+                                    </MenuItem>
+                                    <MenuItem>
+                                      <FaShareAlt className="share"/>
+                                      <span>Edit</span>
+                                    </MenuItem>
+                                  </ContextMenu>
                               </tr>
                             );
                           })}
@@ -361,7 +424,7 @@ const AddProject = ({ onAdd }) => {
             </div>
         </div>
     </div>
-
+ </>
   );
 };
 
