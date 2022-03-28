@@ -260,6 +260,7 @@ const AddProject = ({ onAdd }) => {
                             Update
                           </Button>
                         </div>
+
                    </Form>
                 </div>
             </div>
@@ -313,8 +314,10 @@ const AddProject = ({ onAdd }) => {
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-body">
+                                  <h6 class="card-title">Project Team</h6>
                                  <div class="table-responsive">
                                     <table class="table no-wrap v-middle mb-0">
+
                                         <thead>
                                             <tr class="border-0">
                                                 <th class="border-0 font-14 font-weight-medium text-muted">First name</th>

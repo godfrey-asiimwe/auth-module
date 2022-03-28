@@ -7,6 +7,7 @@ import API from "../API"
 import Projects from './Projects'
 import Tasks from './Taskss'
 import Budget from './Budget'
+import Profile from './profile'
 
 const ContactsState = rj({
   effectCaller: rj.configured(),
@@ -29,12 +30,12 @@ export default function AddressBook() {
         <header class="topbar" data-navbarbg="skin6">
             <nav class="navbar top-navbar navbar-expand-md">
                 <div class="navbar-header" data-logobg="skin6">
-                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
-                            class="ti-menu ti-close"></i></a>
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
+                         <i class="ti-menu ti-close"></i></a>
 
                     <div class="navbar-brand">
 
-                        <a href="index.html">
+                        <a href="/">
                             <b class="logo-icon" >
                                 <img src="../assets/images/logo.png" alt="homepage" class="dark-logo" />
 
@@ -51,8 +52,6 @@ export default function AddressBook() {
                 </div>
                 <div class="navbar-collapse collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
-
-
                     </ul>
                     <ul class="navbar-nav float-right">
 
@@ -64,15 +63,12 @@ export default function AddressBook() {
                                         class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    My Profile</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" onClick={logout} ><i data-feather="power"
                                         class="svg-icon mr-2 ml-1"></i>
                                     Logout</a>
                                 <div class="dropdown-divider"></div>
-                                <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">View
+                                <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info" onClick={() => setState('profile') }>View
                                         Profile</a></div>
                             </div>
                         </li>
@@ -182,12 +178,13 @@ export default function AddressBook() {
               {state === 'projects' && <Projects />}
               {state === 'tasks' && <Tasks />}
               {state === 'budgets' && <Budget/>}
+              {state === 'profile' && <Profile/>}
           </div>
          </div>
 
        <footer class="footer text-center text-muted">
             All Rights Reserved by Coseke. Designed and Developed by
-            <a href="">Coseke U LTD</a>.
+            <a href=""> Coseke U LTD</a>.
        </footer>
 
       </div>

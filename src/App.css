@@ -48,3 +48,114 @@
 .pointer-link {
   cursor: pointer;
 }
+
+.profile-widget {
+    margin-top: 35px;
+}
+.card {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 3%);
+    background-color: #fff;
+    border-radius: 3px;
+    border: none;
+    position: relative;
+    margin-bottom: 30px;
+}
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+user agent stylesheet
+div {
+    display: block;
+}
+
+.profile-widget .profile-widget-header {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.profile-widget .profile-widget-items {
+    display: flex;
+    position: relative;
+}
+.profile-widget .profile-widget-items .profile-widget-item {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #f2f2f2;
+    padding: 10px 0;
+}
+
+profile-widget .profile-widget-items .profile-widget-item .profile-widget-item-label {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: #34395e;
+}
+
+.profile-widget .profile-widget-items .profile-widget-item .profile-widget-item-value {
+    color: #000;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.profile-widget .profile-widget-description {
+    padding: 20px;
+    line-height: 26px;
+}
+
+.profile-widget .profile-widget-description .profile-widget-name {
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.text-muted {
+    color: #98a6ad !important;
+}
+
+.font-weight-normal {
+    font-weight: 500 !important;
+}
+
+.row{
+    margin:20px !important;
+}
+
+.card .card-header {
+    border-bottom-color: #f9f9f9;
+    line-height: 30px;
+    -ms-grid-row-align: center;
+    align-self: center;
+    width: 100%;
+    min-height: 70px;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+}
+
+.card .card-header, .card .card-body, .card .card-footer {
+    background-color: transparent;
+    padding: 20px 25px;
+}
+.card-header:first-child {
+    border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+}
+.card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
