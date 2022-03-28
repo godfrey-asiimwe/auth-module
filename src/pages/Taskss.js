@@ -21,7 +21,7 @@ const AddTask = ({ onAdd }) => {
   const [start_date, setStartDate] = useState("");
   const [deadline, setDeadline] = useState("");
   const [created_by, setCreatedBy] = useState("");
-  const [project_name, setProjectName] = useState("");
+  const [project_id, setProjectId] = useState("");
   const [taskId, setTaskId] = useState(null); 
   const [tasks, setTasks] = useState([]);
 
@@ -93,7 +93,7 @@ const AddTask = ({ onAdd }) => {
   //on saving the task
   const onSubmit = (event) => {
     event.preventDefault();
-    let item = { title, details, responsible_person, start_date,deadline, created_by, project_name};
+    let item = { title, details, responsible_person, start_date,deadline, created_by, project_id};
     tasksapi.post("/post", item).then(() => refreshTasks());
 
     setTitle("");
@@ -102,11 +102,11 @@ const AddTask = ({ onAdd }) => {
     setStartDate("");
     setDeadline("");
     setCreatedBy("");
-    setProjectName("")
+    setProjectId("")
   };  
 
   const onUpdate = (id) => {
-    let item = {title, details, responsible_person, start_date,deadline, created_by, project_name};
+    let item = {title, details, responsible_person, start_date,deadline, created_by, project_id};
     tasksapi.post('/update/'+id+'/', item).then((res) => refreshTasks());
 
     setTitle("");
@@ -115,7 +115,7 @@ const AddTask = ({ onAdd }) => {
     setStartDate("");
     setDeadline("");
     setCreatedBy("");
-    setProjectName("")
+    setProjectId("")
   };
 
   const onDelete = (id) => {
@@ -140,7 +140,7 @@ const AddTask = ({ onAdd }) => {
     setStartDate(item.start_date);
     setDeadline(item.deadline)
     setCreatedBy(item.created_by);
-    setProjectName(item.project_name)
+    setProjectId(item.projectId);
     setTaskId(item.id);
 
   }
@@ -223,8 +223,8 @@ const AddTask = ({ onAdd }) => {
                                           <Form.Control
                                             type="text"
                                             placeholder="Enter Project Name"
-                                            value={project_name}
-                                            onChange={(e) => setProjectName(e.target.value)}
+                                            value={project_id}
+                                            onChange={(e) => setProjectId(e.target.value)}
                                           />
                                         </Form.Group>
 
@@ -354,7 +354,7 @@ const AddTask = ({ onAdd }) => {
                                     <td>{task.start_date}</td>
                                     <td>{task.deadline}</td>
                                     <td>{task.created_by}</td>
-                                    <td>{task.project_name}</td>
+                                    <td>{task.project_id}</td>
                                     <td>
                                         <a data-toggle="modal" data-target="#login-modal" onClick={() => selectTask(task.id)}>
                                         <i class="icon-pencil mr-2 text-success" ></i></a>

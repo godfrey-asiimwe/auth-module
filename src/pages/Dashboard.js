@@ -6,7 +6,6 @@ import ContactCard from '../components/ContactCard'
 import API from "../API"
 import Projects from './Projects'
 import Tasks from './Taskss'
-import Budget from './Budget'
 import Profile from './profile'
 
 const ContactsState = rj({
@@ -177,7 +176,6 @@ export default function AddressBook() {
                )}
               {state === 'projects' && <Projects />}
               {state === 'tasks' && <Tasks />}
-              {state === 'budgets' && <Budget/>}
               {state === 'profile' && <Profile/>}
           </div>
          </div>
