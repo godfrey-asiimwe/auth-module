@@ -25,6 +25,8 @@ const AddTask = ({ onAdd }) => {
   const [taskId, setTaskId] = useState(null); 
   const [tasks, setTasks] = useState([]);
 
+  const [projects, setProjects] = useState([]);
+
   const [first_name, setFirstname]=useState("")
   const [last_name, setLastname]=useState("")
   const [users, setUsers] = useState([]);
@@ -32,6 +34,18 @@ const AddTask = ({ onAdd }) => {
   const [userId, setUserId] = useState(null);
   const [inputValue, setValue] = useState('');
   const [selectedValue, setSelectedValue] = useState(null);
+
+
+  useEffect(() => {
+    fetch('http://192.168.18.203:8100/all/', 
+    {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(resp=> resp.json()).then(resp=>setProjects(resp)).then(error=>console.log(error));
+}, [])
 
   // handle input change event
   const handleInputChange = value => {
@@ -203,7 +217,7 @@ const AddTask = ({ onAdd }) => {
                                           <Form.Label>End Date</Form.Label>
                                           <Form.Control
                                             type="date"
-                                            placeholder="Enter End Date"
+                                            placeholder= "Enter End Date"
                                             value={deadline}
                                             onChange={(e) => setDeadline(e.target.value)}
                                           />
@@ -220,12 +234,16 @@ const AddTask = ({ onAdd }) => {
                                           </Form.Group>
                                           <Form.Group className="mb-3" controlId="formBasicName">
                                           <Form.Label>Project Name</Form.Label>
-                                          <Form.Control
-                                            type="text"
-                                            placeholder="Enter Project Name"
-                                            value={project_id}
-                                            onChange={(e) => setProjectId(e.target.value)}
-                                          />
+                                          <select onChange={(e) => setProjectId(e.target.value)}>
+                                              <option selected disabled = 'false'>--Select project --</option>
+                                              {
+                                                  projects.map(prolist=>{
+                                                      return(
+                                                          <option value={prolist.id}>{prolist.name}</option>
+                                                      )
+                                                  })
+                                              }
+                                          </select>
                                         </Form.Group>
 
                                         <div className="float-right">
@@ -259,9 +277,7 @@ const AddTask = ({ onAdd }) => {
                             <div class="modal-content">
                                 <div class="modal-body">
                                     <div class="text-center mt-2 mb-4">
-                                        <a href="" class="text-success">
-                                            <span>Add User</span>
-                                        </a>
+                                        
                                     </div>
 
                                    <Form onSubmit={onUserSubmit} className="mt-4">
@@ -310,9 +326,7 @@ const AddTask = ({ onAdd }) => {
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
                                 <a class="dropdown-item" data-toggle="modal"
-                                    data-target="#login-modal">Create</a>
-                                 <a class="dropdown-item" data-toggle="modal"
-                                    data-target="#adduser-modal">Add User</a>
+                                    data-target="#login-modal">Create Task</a>
                             </div>
                         </div>
                     </div>
