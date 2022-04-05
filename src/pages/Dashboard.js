@@ -8,6 +8,7 @@ import Projects from './Projects'
 import Tasks from './Taskss'
 import Budget from './Budget'
 
+
 const ContactsState = rj({
   effectCaller: rj.configured(),
   effect: (token) => (search = '') =>
@@ -183,6 +184,7 @@ export default function AddressBook() {
               {state === 'tasks' && <Tasks />}
               {state === 'budgets' && <Budget/>}
           </div>
+         
          </div>
 
        <footer class="footer text-center text-muted">
