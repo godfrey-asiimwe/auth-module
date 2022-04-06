@@ -9,7 +9,6 @@ import { useAuthActions, useAuthUser } from 'use-eazy-auth'
 import AsyncSelect from 'react-select/async';
 import API from "../API"
 import auth from "../auth"
-import Budget from "../budgetAPI"
 import '../App.css'
 import '../coupon.css'
 
@@ -33,10 +32,6 @@ const AddProject = ({ onAdd }) => {
   const [inputValue, setValue] = useState('');
   const [selectedValue, setSelectedValue] = useState(null);
 
-  const [budgetName, setBudgetName]=useState("")
-  const [budgetId, setBudgetId]=useState("")
-  const [budgets, setBudgets] = useState([]);
-
   // handle input change event
   const handleInputChange = value => {
     setValue(value);
@@ -56,36 +51,9 @@ const AddProject = ({ onAdd }) => {
       .catch(console.error);
   }
 
-   //fetching budgets from the system
-  const fetchBudgetData = () => {
-    auth.get("/users/")
-      .then((res) => {
-        setBudgets(res.data);
-      })
-      .catch(console.error);
-  }
-
-  //attach a user to a project
-  const onBudgetSubmit = (projectId) => {
-    let item = {budgetName,projectId};
-    if (window.confirm("Are you sure you want to create a budget to this project?")) {
-       Budget.post("/budgetapi/v1/create_budget", item).then((res) => fetchBudgetData())
-        .then()
-        .catch((err) => {
-          alert("Error on creation");
-        });
-
-          alert("Budget created successfully");
-
-          setBudgetName("");
-    }
-
-  };
-
   useEffect(() => {
     refreshProjects();
     fetchData();
-    fetchBudgetData();
   }, []);
 
   //select users per project
@@ -260,7 +228,6 @@ const AddProject = ({ onAdd }) => {
                             Update
                           </Button>
                         </div>
-
                    </Form>
                 </div>
             </div>
@@ -314,10 +281,8 @@ const AddProject = ({ onAdd }) => {
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-body">
-                                  <h6 class="card-title">Project Team</h6>
                                  <div class="table-responsive">
                                     <table class="table no-wrap v-middle mb-0">
-
                                         <thead>
                                             <tr class="border-0">
                                                 <th class="border-0 font-14 font-weight-medium text-muted">First name</th>
@@ -340,42 +305,6 @@ const AddProject = ({ onAdd }) => {
                         </div>
                     </div>
                  </div>
-
-                 <div id="addBudget-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <div class="text-center mt-2 mb-4">
-                                    <a href="" class="text-success">
-                                        <span>Add Budget</span>
-                                    </a>
-                                </div>
-
-                               <Form onSubmit={onBudgetSubmit} className="mt-4">
-                                   <Form.Group className="mb-3" controlId="formBasicName">
-                                      <Form.Label>Name</Form.Label>
-                                      <Form.Control
-                                        type="text"
-                                        placeholder="Enter Budget Name"
-                                        value={budgetName}
-                                        onChange={(e) => setBudgetName(e.target.value)}
-                                      />
-                                    </Form.Group>
-                                    <div className="float-right">
-                                      <Button
-                                        variant="primary"
-                                        type="button"
-                                        onClick={() => onBudgetSubmit(projectId)}
-                                        className="mx-2"
-                                        >
-                                        Add
-                                      </Button>
-                                    </div>
-                               </Form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             <div class="d-flex align-items-center mb-4">
                 <h4 class="card-title">List of Projects</h4>
                 <div class="ml-auto">
@@ -408,7 +337,6 @@ const AddProject = ({ onAdd }) => {
                             </th>
                             <th class="border-0 font-14 font-weight-medium text-muted">Type</th>
                             <th class="border-0 font-14 font-weight-medium text-muted">Members</th>
-                            <th class="border-0 font-14 font-weight-medium text-muted">Budget</th>
                             <th class="border-0 font-14 font-weight-medium text-muted">Actions</th>
                         </tr>
                     </thead>
@@ -446,19 +374,12 @@ const AddProject = ({ onAdd }) => {
                                 <td>
                                 <ContextMenuTrigger id="contextmenu">
                                     <a data-toggle="modal" data-target="#viewUser-modal" onClick={() => onViewUsers(project.id)}>
-                                        <i class="icon-user" ></i>
+                                        <i class="icon-user" ></i> View members
                                     </a>
-                                    &nbsp; &nbsp;
                                     <a data-toggle="modal" data-target="#adduser-modal" onClick={() => selectProject(project.id)}>
-                                    <i class="icon-plus mr-2 text-success" ></i> </a>
-                                </ContextMenuTrigger>
-                                </td>
-                                <td>
-                                <ContextMenuTrigger id="contextmenu">
-                                    &nbsp;&nbsp;
-                                    <a data-toggle="modal" data-target="#addBudget-modal" onClick={() => selectProject(project.id)}>
-                                     <i class="icon-plus mr-2 text-success" ></i>
-                                     </a>
+                                    <i class="icon-plus mr-2 text-success" ></i> add members </a>
+                                    <a data-toggle="modal" data-target="#adduser-modal" onClick={() => selectProject(project.id)}>
+                                     View budget </a>
                                 </ContextMenuTrigger>
                                 </td>
                                 <td>
