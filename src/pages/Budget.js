@@ -8,6 +8,8 @@ import API from "../API"
 import auth from "../auth"
 import '../App.css'
 import budgetAPI from "../budgetAPI"
+import { ContextMenu, MenuItem} from "react-contextmenu";
+import {RiDeleteBin6Line} from 'react-icons/ri';
 
 // import accordion packages
 
@@ -17,11 +19,13 @@ import budgetAPI from "../budgetAPI"
 const AddBudget = ({ onAdd }) => {
   const { user } = useAuthUser()
   const { logout } = useAuthActions()
-  const [item_name, setItem] = useState("");
+  const [itemName, setItem] = useState("");
   const [description, setDescription] = useState("");
-  const [item_cost, setAmount] = useState("");
+  const [itemCost, setAmount] = useState("");
+  const [item_id, setItemId] = useState("");
   const [budget_id, setBudgetId] = useState(null);
   const [budgets, setBudgets] = useState([]);
+  const [items, setBudgetItems] = useState([]);
   const [inputValue, setValue] = useState('');
   const [selectedValue, setSelectedValue] = useState(null);
 
@@ -46,7 +50,21 @@ const AddBudget = ({ onAdd }) => {
   }
 
   useEffect(() => {
+    refreshBudgetItems();
     fetchData();
+  }, []);
+
+  //fetching budget item data from the system
+  const fetchItemData = () => {
+    budgetAPI.get(`/budgetapi/v1/get`)
+      .then((res) => {
+        setBudgetItems(res.data);
+      })
+      .catch(console.error);
+  }
+
+  useEffect(() => {
+    fetchItemData();
   }, []);
 
 
@@ -54,8 +72,8 @@ const AddBudget = ({ onAdd }) => {
   //assign budget item to a project
   const onSubmit = (e) => {
     e.preventDefault();
-    let item = {budget_id, item_name, description, item_cost};
-    budgetAPI.post("/budgetapi/v1/create_budget_item", item).then(() => fetchData());
+    let item = {budget_id, itemName, description, itemCost};
+    budgetAPI.post("/budgetapi/v1/create_budget_item", item).then(() => refreshBudgetItems());
    
     setItem("");
     setAmount("");
@@ -64,9 +82,42 @@ const AddBudget = ({ onAdd }) => {
 
   };
 
+   //refreshing the budget item list
+   const refreshBudgetItems = () => {
+    budgetAPI.get("/budgetapi/v1/get")
+      .then((res) => {
+        setBudgetItems(res.data);
+      })
+      .catch(console.error);
+  };
+
+  //deleting the budget item
+  const onDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this item?")) {
+     budgetAPI.delete('/budgetapi/v1/delete_budget_item/'+ id).then((res) => refreshBudgetItems())
+      .then()
+      .catch((err) => {
+        console.log(err.response);
+      });
+
+    alert("Item with ID " + id + " was deleted successfully");
+
+  }
+}
+
+const onUpdate = (id) => {
+      return id;
+}
+
+//update budget item
+const updateItem = () => {}
+
+
+
   return (
 
     <div class="card">
+        {/* add budget item form */}
         <div class="card-body">
         <div id="budget-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
@@ -98,7 +149,7 @@ const AddBudget = ({ onAdd }) => {
                           <Form.Control
                             type="text"
                             placeholder="Enter Item"
-                            value={item_name}
+                            value={itemName}
                             onChange={(e) => setItem(e.target.value)}
                           />
                         </Form.Group>
@@ -117,7 +168,7 @@ const AddBudget = ({ onAdd }) => {
                           <Form.Control
                             type="text"
                             placeholder="Enter Amount"
-                            value={item_cost}
+                            value={itemCost}
                             onChange={(e) => setAmount(e.target.value)}
                           />
                         </Form.Group>
@@ -131,6 +182,85 @@ const AddBudget = ({ onAdd }) => {
                           >
                             Save
                           </Button>
+                          <Button
+                            variant="primary"
+                            type="button"
+                            className="mx-2"
+                          >
+                            Update
+                          </Button>
+                        </div>
+                   </Form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {/*update budget item form */}
+    <div id="budget_item-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center mt-2 mb-4">
+                        <a href="index.html" class="text-success">
+                            <span></span>
+                        </a>
+                    </div>
+
+                   <Form onSubmit={updateItem()} className="mt-4">
+                   
+                          
+                          {budgets.map((budget, index) => {
+                            return (
+                             <><Form.Group className="mb-3" controlId="formBasicName">
+                          <Form.Label>Budget</Form.Label>
+                              
+                              <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setBudgetId(e.target.value)}>
+                                
+                                <option value={budget.budget_id}>{budget.budgetName}</option>
+                                
+                          
+                              </select>
+                                
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicName">
+                          <Form.Label>Item</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter Item"
+                            value={itemName}
+                            onChange={(e) => setItem(e.target.value)}
+                          />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicName">
+                          <Form.Label>Description</Form.Label>
+                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            type="text"
+                            placeholder="Enter Item"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                          />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicName">
+                          <Form.Label>Item Cost</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter Amount"
+                            value={itemCost}
+                            onChange={(e) => setAmount(e.target.value)}
+                          />
+                        </Form.Group>
+                        </> 
+                       
+
+                        
+
+                        );
+                          })}
+
+                        <div className="float-right">
+                          
                           <Button
                             variant="primary"
                             type="button"
@@ -201,15 +331,41 @@ const AddBudget = ({ onAdd }) => {
                                                     <tr class="p">
                                                       <td colspan="6" class="hiddenRow">
                                                       <div class="accordian-body collapse p-3" id={"demo" + JSON.stringify(budget.budget_id)}>
-                                                      <p>No : <span>{budget.budget_id}</span></p>
-                                                      <p>Date : <span>12 Jan 2018</span> </p>
-                                                      <p>Description : <span>Good</span> </p>
-                                                      <p>Credit : <span>$150.00</span> </p>
-                                                      <p>Debit : <span></span></p>
-                                                      <p>Balance : <span>$150.00</span></p>
+                                                      {items.map((item, i) => {
+                                                            {
+                                                              return(
+                                                                <>
+                                                                <tr>
+                                                                  <th>Item</th>
+                                                                  <th>Description</th>
+                                                                  <th>Cost</th>
+                                                                  <th>Actions</th>
+                                                                </tr>
+                                                                <tr key={i}>
+                                                                  <td>Item: {item.itemName} </td>
+                                                                  <td>Description: {item.description} </td>
+                                                                  <td>Item Cost: {item.itemCost} </td>
+                                                                  <td>
+                                                                      <button onClick={() => onDelete(item.itemId)}>Delete</button>
+                                                                  </td>
+                                                                      <td><button class="dropdown-item" data-toggle="modal"
+                                                                          data-target="#budget_item-modal" onClick={() => onUpdate(item.itemId)}>Update</button>
+                                                                  </td>
+                                                                  
+                                                                  </tr>
+                                                                  </>
+                                                              )
+                                                            }
+                                                          })
+
+                                                          }
                                                       </div>
                                                       </td>
                                                       </tr>
+
+                                                      
+                                                                      
+                                                                   
                                                     
                                                     
                                                     
@@ -220,11 +376,16 @@ const AddBudget = ({ onAdd }) => {
                                                   );
                                               }
                                             )}
+
+                                            
                                              
                                                 
                                                 
                                            </tbody>
                                      </table>  
+                                     
+
+                                    
                                      
                                       
                                             
