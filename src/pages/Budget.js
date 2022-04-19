@@ -10,11 +10,7 @@ import '../App.css'
 import budgetAPI from "../budgetAPI"
 
 // import accordion packages
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import Typography from "@material-ui/core/Typography";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
+
 
 
 
@@ -171,40 +167,75 @@ const AddBudget = ({ onAdd }) => {
             </div>
             <div>
                 
-                              <h5>Budget</h5>
+            
                             
                     {/* display budget data */}
-                        {budgets.map((budget, index) => {
-                            return (
-                              <div>
-                              <Accordion>
-                                  <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
-                                  >
-                                    <Typography>{budget.budgetName}</Typography>
-                                  </AccordionSummary>
-                                  <AccordionDetails>
-                                    <Typography>
-                                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                      malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                    </Typography>
-                                  </AccordionDetails>
-                                </Accordion>{<br/>}
-                                </div>
+                        
+                           
+                           <div>
+                              <table class="table"> 
                               
-                            );
-                          })}
+                                              <thead>
+                                                <tr>
+                                                  
+                                                  <th scope="col">Budget</th>
+                                                  <th scope="col">Project</th>
+                                                  
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                              
+                                                 
+                                                      
+                                              {budgets.map((budget, index) => {
+                                                  return(
+                                                    
+                                                    <>
+                                                    <tr colspan="6" data-toggle="collapse" data-target={"#demo" + budget.budget_id} class="accordion-toggle">
+                                                    
+                                                        <td>{budget.budgetName}</td>
+                                                        <td>{"#demo" + budget.budget_id}</td>
+                                                        
+                                                    </tr>
+                                                    
+                                                    <tr class="p">
+                                                      <td colspan="6" class="hiddenRow">
+                                                      <div class="accordian-body collapse p-3" id={"demo" + JSON.stringify(budget.budget_id)}>
+                                                      <p>No : <span>{budget.budget_id}</span></p>
+                                                      <p>Date : <span>12 Jan 2018</span> </p>
+                                                      <p>Description : <span>Good</span> </p>
+                                                      <p>Credit : <span>$150.00</span> </p>
+                                                      <p>Debit : <span></span></p>
+                                                      <p>Balance : <span>$150.00</span></p>
+                                                      </div>
+                                                      </td>
+                                                      </tr>
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    </>
+                                                    
+                                                    
+                                                  );
+                                              }
+                                            )}
+                                             
+                                                
+                                                
+                                           </tbody>
+                                     </table>  
+                                     
+                                      
+                                            
+                                </div>
 
+                                {/* accordion */}
+                               
+                                
 
-                    
-                </div>
-                <div>
-      
-      
-    </div>
-
+ {/* end of accordons */}</div>
+             
                 
             </div>
         </div>

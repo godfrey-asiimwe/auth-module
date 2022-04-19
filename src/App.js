@@ -5,6 +5,7 @@ import { ConfigureRj } from 'react-rocketjump'
 import { map } from 'rxjs/operators'
 import { ajax } from 'rxjs/ajax'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/bootstrap/dist/js/bootstrap.min.js';
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Projects from './pages/Projects'

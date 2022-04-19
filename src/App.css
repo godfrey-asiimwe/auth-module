@@ -52,7 +52,6 @@
 .profile-widget {
     margin-top: 35px;
 }
-
 .card {
     box-shadow: 0 4px 8px rgb(0 0 0 / 3%);
     background-color: #fff;
@@ -61,7 +60,6 @@
     position: relative;
     margin-bottom: 30px;
 }
-
 .card {
     position: relative;
     display: -ms-flexbox;
@@ -78,7 +76,6 @@
 *, ::after, ::before {
     box-sizing: border-box;
 }
-
 user agent stylesheet
 div {
     display: block;
@@ -153,7 +150,6 @@ profile-widget .profile-widget-items .profile-widget-item .profile-widget-item-l
     background-color: transparent;
     padding: 20px 25px;
 }
-
 .card-header:first-child {
     border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
 }
