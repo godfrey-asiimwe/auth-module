@@ -56,7 +56,7 @@ const AddBudget = ({ onAdd }) => {
 
   //fetching budget item data from the system
   const fetchItemData = () => {
-    budgetAPI.get(`/budgetapi/v1/get`)
+    budgetAPI.get(`/budgetapi/v1/get_single_budget_item`)
       .then((res) => {
         setBudgetItems(res.data);
       })
@@ -84,7 +84,7 @@ const AddBudget = ({ onAdd }) => {
 
    //refreshing the budget item list
    const refreshBudgetItems = () => {
-    budgetAPI.get("/budgetapi/v1/get")
+    budgetAPI.get("/budgetapi/v1/get_single_budget_item")
       .then((res) => {
         setBudgetItems(res.data);
       })
