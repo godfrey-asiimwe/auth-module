@@ -19,6 +19,7 @@ import {RiDeleteBin6Line} from 'react-icons/ri';
 const AddBudget = ({ onAdd }) => {
   const { user } = useAuthUser()
   const { logout } = useAuthActions()
+  //const [itemName, setItem] = useState("");
   const [itemName, setItem] = useState("");
   const [description, setDescription] = useState("");
   const [itemCost, setAmount] = useState("");
@@ -26,6 +27,7 @@ const AddBudget = ({ onAdd }) => {
   const [budgetId, setBudgetId] = useState("");
   const [budgets, setBudgets] = useState([]);
   const [items, setBudgetItems] = useState([]);
+  
   const [inputValue, setValue] = useState('');
   const [selectedValue, setSelectedValue] = useState("");
 
@@ -55,15 +57,19 @@ const AddBudget = ({ onAdd }) => {
   }, []);
 
   //fetching budget item data from the system
-  const fetchItemData = () => {
-    budgetAPI.get("/budgetapi/v1/get_single_budget_item/budget_id")
+  const fetchItemData = (id) => {
+    budgetAPI.get("/budgetapi/v1/get_single_budget_item/" + id )
       .then((res) => {
         setBudgetItems(res.data);
       })
       .catch(console.error);
+
   }
 
+  
+
   useEffect(() => {
+    refreshBudgetItems();
     fetchItemData();
   }, []);
 
@@ -72,7 +78,7 @@ const AddBudget = ({ onAdd }) => {
   //assign budget item to a project
   const onSubmit = (e) => {
     e.preventDefault();
-    let item = {budgetId, itemName, description, itemCost};
+    let item = {budgetId, description, itemCost, itemName};
     budgetAPI.post("/budgetapi/v1/create_budget_item", item).then(() => refreshBudgetItems());
    
     setItem("");
@@ -83,8 +89,8 @@ const AddBudget = ({ onAdd }) => {
   };
 
    //refreshing the budget item list
-   const refreshBudgetItems = () => {
-    budgetAPI.get("/budgetapi/v1/get_single_budget_item/budget_id")
+   const refreshBudgetItems = (id) => {
+    budgetAPI.get("/budgetapi/v1/get_single_budget_item/" + id)
       .then((res) => {
         setBudgetItems(res.data);
       })
@@ -321,7 +327,7 @@ const updateItem = () => {}
                                                   return(
                                                     
                                                     <>
-                                                    <tr colspan="6" data-toggle="collapse" data-target={"#demo" + budget.budget_id} class="accordion-toggle">
+                                                    <tr colspan="6" data-toggle="collapse" data-target={"#demo" + budget.budget_id} class="accordion-toggle" onClick = {()=>fetchItemData(budget.budget_id)}>
                                                     
                                                         <td>{budget.budgetName}</td>
                                                         <td>{"#demo" + budget.budget_id}</td>
@@ -330,7 +336,9 @@ const updateItem = () => {}
                                                     
                                                     <tr class="p">
                                                       <td colspan="6" class="hiddenRow">
-                                                      <div class="accordian-body collapse p-3" id={"demo" + JSON.stringify(budget.budget_id)}>
+                                                      
+                                                      <div class="accordian-body collapse p-3" id={"demo" + JSON.stringify(budget.budget_id)}  > 
+                                                     
                                                       {items.map((item, i) => {
                                                             {
                                                               return(
