@@ -23,11 +23,11 @@ const AddBudget = ({ onAdd }) => {
   const [description, setDescription] = useState("");
   const [itemCost, setAmount] = useState("");
   const [item_id, setItemId] = useState("");
-  const [budget_id, setBudgetId] = useState(null);
+  const [budgetId, setBudgetId] = useState("");
   const [budgets, setBudgets] = useState([]);
   const [items, setBudgetItems] = useState([]);
   const [inputValue, setValue] = useState('');
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState("");
 
 
   // handle input change event
@@ -56,7 +56,7 @@ const AddBudget = ({ onAdd }) => {
 
   //fetching budget item data from the system
   const fetchItemData = () => {
-    budgetAPI.get(`/budgetapi/v1/get_single_budget_item`)
+    budgetAPI.get("/budgetapi/v1/get_single_budget_item/budget_id")
       .then((res) => {
         setBudgetItems(res.data);
       })
@@ -72,7 +72,7 @@ const AddBudget = ({ onAdd }) => {
   //assign budget item to a project
   const onSubmit = (e) => {
     e.preventDefault();
-    let item = {budget_id, itemName, description, itemCost};
+    let item = {budgetId, itemName, description, itemCost};
     budgetAPI.post("/budgetapi/v1/create_budget_item", item).then(() => refreshBudgetItems());
    
     setItem("");
@@ -84,7 +84,7 @@ const AddBudget = ({ onAdd }) => {
 
    //refreshing the budget item list
    const refreshBudgetItems = () => {
-    budgetAPI.get("/budgetapi/v1/get_single_budget_item")
+    budgetAPI.get("/budgetapi/v1/get_single_budget_item/budget_id")
       .then((res) => {
         setBudgetItems(res.data);
       })
