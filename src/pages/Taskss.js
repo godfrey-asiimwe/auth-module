@@ -6,22 +6,19 @@ import { useAuthActions, useAuthUser } from 'use-eazy-auth'
 import AsyncSelect from 'react-select/async';
 import tasksapi from '../tasksapi';
 import auth from "../auth"
-
-
-
+import API from "../API"
 
 const AddTask = ({ onAdd }) => {
-
-
   const { user } = useAuthUser()
   const { logout } = useAuthActions()
-  const [title, setTitle] = useState("");
-  const [details, setDetails] = useState("");
-  const [responsible_person, setResponsiblePerson] = useState("")
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [responsible, setResponsiblePerson] = useState("")
   const [start_date, setStartDate] = useState("");
-  const [deadline, setDeadline] = useState("");
+  const [end_date, setDeadline] = useState("");
   const [created_by, setCreatedBy] = useState("");
-  const [project_name, setProjectName] = useState("");
+  const [projectId, setprojectId] = useState("");
+  const [projectName, setprojectName] = useState("");
   const [taskId, setTaskId] = useState(null); 
   const [tasks, setTasks] = useState([]);
 
@@ -32,6 +29,8 @@ const AddTask = ({ onAdd }) => {
   const [userId, setUserId] = useState(null);
   const [inputValue, setValue] = useState('');
   const [selectedValue, setSelectedValue] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [projectsbyId, setProjectById] = useState([]);
 
   // handle input change event
   const handleInputChange = value => {
@@ -52,8 +51,26 @@ const AddTask = ({ onAdd }) => {
       .catch(console.error);
   }
 
+  //refreshing the project list
+  const refreshProjects = () => {
+    API.get("/all/")
+      .then((res) => {
+        setProjects(res.data);
+      })
+      .catch(console.error);
+  };
+
+    //select users per project
+  const onViewProjects  = (id) => {
+      API.get("/view/"+id).then((res) => {
+          setprojectName(res.data.name);
+        })
+        .catch(console.error);
+  };
+
   useEffect(() => {
     refreshTasks();
+    refreshProjects();
     fetchData();
   }, []);
 
@@ -66,6 +83,7 @@ const AddTask = ({ onAdd }) => {
         })
         .catch(console.error);
     };
+
 
   const onUserSubmit = (taskId,userId) => {
 
@@ -83,9 +101,10 @@ const AddTask = ({ onAdd }) => {
 
   //refeshing the task list
   const refreshTasks = () => {
-    tasksapi.get("")
+    tasksapi.get("/all/")
       .then((res) => {
         setTasks(res.data);
+        {onViewProjects(res.data.projectId)}
       })
       .catch(console.error);
   };
@@ -93,61 +112,65 @@ const AddTask = ({ onAdd }) => {
   //on saving the task
   const onSubmit = (event) => {
     event.preventDefault();
-    let item = { title, details, responsible_person, start_date,deadline, created_by, project_name};
-    tasksapi.post("/post", item).then(() => refreshTasks());
+    let item = { name, description, responsible, start_date,end_date, created_by, projectId};
+    tasksapi.post("/create/", item).then(() => refreshTasks());
 
-    setTitle("");
-    setDetails("");
-    setResponsiblePerson("")
+    setName("");
+    setDescription("");
+    setResponsiblePerson("");
     setStartDate("");
-    setDeadline("");
+    setDeadline("")
     setCreatedBy("");
-    setProjectName("")
+    setprojectId("")
+
   };  
 
   const onUpdate = (id) => {
-    let item = {title, details, responsible_person, start_date,deadline, created_by, project_name};
-    tasksapi.post('/update/'+id+'/', item).then((res) => refreshTasks());
+    let item = {name, description, responsible, start_date,end_date, created_by, projectId};
+    tasksapi.post('/update/'+id, item).then((res) => refreshTasks());
 
-    setTitle("");
-    setDetails("");
-    setResponsiblePerson("")
+    setName("");
+    setDescription("");
+    setResponsiblePerson("");
     setStartDate("");
-    setDeadline("");
+    setDeadline("")
     setCreatedBy("");
-    setProjectName("")
+    setprojectId("")
   };
 
   const onDelete = (id) => {
       if (window.confirm("Are you sure you want to delete this task?")) {
-        tasksapi.delete('delete/'+id+'/').then((res) => refreshTasks())
+        tasksapi.delete('/delete/'+id).then((res) => refreshTasks())
         .then()
         .catch((err) => {
           console.log(err.response);
         });
-
       alert("Task with ID " + id + " was deleted successfully");
-
     }
-
   };
 
   function selectTask(id) {
     let item = tasks.filter((task) => task.id === id)[0];
-    setTitle(item.title);
-    setDetails(item.details);
-    setResponsiblePerson(item.responsible_person);
+    setName(item.name);
+    setDescription(item.description);
+    setResponsiblePerson(item.responsible);
     setStartDate(item.start_date);
-    setDeadline(item.deadline)
+    setDeadline(item.end_date)
     setCreatedBy(item.created_by);
-    setProjectName(item.project_name)
+    setprojectId(item.projectId)
     setTaskId(item.id);
 
   }
 
+  function selectProject(id) {
+    let item = projects.filter((project) => project.id === id)[0];
+    setName(item.name);
+  }
+
+
+
 
   return (
-
         <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center mb-4">
@@ -163,30 +186,35 @@ const AddTask = ({ onAdd }) => {
 
                                    <Form onSubmit={onSubmit} className="mt-4">
                                         <Form.Group className="mb-3" controlId="formBasicName">
-                                          <Form.Label>Title</Form.Label>
+                                          <Form.Label>Task Name</Form.Label>
                                           <Form.Control
                                             type="text"
-                                            placeholder="Enter Title"
-                                            value={title}
-                                            onChange={(e) => setTitle(e.target.value)}
+                                            placeholder="Enter Name"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
                                           />
                                         </Form.Group>
 
                                         <div class="form-group">
+                                           <Form.Label>Task Description</Form.Label>
                                             <textarea class="form-control" rows="3" placeholder="Text Here..."
-                                            value={details}
-                                            onChange={(e) => setDetails(e.target.value)}
+                                            value={description}
+                                            onChange={(e) => setDescription(e.target.value)}
                                             ></textarea>
                                         </div>
 
                                         <Form.Group className="mb-3" controlId="formBasicName">
                                           <Form.Label>Responsible Person</Form.Label>
-                                          <Form.Control
-                                            type="text"
-                                            placeholder="Enter Title"
-                                            value={responsible_person}
-                                            onChange={(e) => setResponsiblePerson(e.target.value)}
-                                          />
+                                            <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setResponsiblePerson(e.target.value)}
+                                                     >
+                                            {users.map((user, index) => {
+                                               return (
+                                                <option value={user.username} >{user.username}
+                                                </option>
+                                               );
+                                            })}
+                                            </select>
+
                                         </Form.Group>
 
                                         <Form.Group className="mb-3" controlId="formBasicStarring">
@@ -204,28 +232,34 @@ const AddTask = ({ onAdd }) => {
                                           <Form.Control
                                             type="date"
                                             placeholder="Enter End Date"
-                                            value={deadline}
+                                            value={end_date}
                                             onChange={(e) => setDeadline(e.target.value)}
                                           />
                                         </Form.Group>
 
                                         <Form.Group className="mb-3" controlId="formBasicName">
                                           <Form.Label>Created By</Form.Label>
-                                          <Form.Control
-                                            type="text"
-                                            placeholder="Enter Created By"
-                                            value={created_by}
-                                            onChange={(e) => setCreatedBy(e.target.value)}
-                                          />
+                                            <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setCreatedBy(e.target.value)}
+                                                     >
+                                            {users.map((user, index) => {
+                                               return (
+                                                <option value={user.username} >{user.username}
+                                                </option>
+                                               );
+                                            })}
+                                            </select>
                                           </Form.Group>
                                           <Form.Group className="mb-3" controlId="formBasicName">
-                                          <Form.Label>Project Name</Form.Label>
-                                          <Form.Control
-                                            type="text"
-                                            placeholder="Enter Project Name"
-                                            value={project_name}
-                                            onChange={(e) => setProjectName(e.target.value)}
-                                          />
+                                          <Form.Label>Select Project</Form.Label>
+                                           <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setprojectId(e.target.value)}
+                                                     >
+                                            {projects.map((project, index) => {
+                                               return (
+                                                <option value={project.name} >{project.name}
+                                                </option>
+                                               );
+                                            })}
+                                            </select>
                                         </Form.Group>
 
                                         <div className="float-right">
@@ -253,53 +287,6 @@ const AddTask = ({ onAdd }) => {
                         </div>
                     </div>
 
-
-                     <div id="adduser-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <div class="text-center mt-2 mb-4">
-                                        <a href="" class="text-success">
-                                            <span>Add User</span>
-                                        </a>
-                                    </div>
-
-                                   <Form onSubmit={onUserSubmit} className="mt-4">
-                                        <Form.Group className="mb-3" controlId="formBasicName">
-
-                                         <div className="col-md-12">
-
-                                            <div class="form-group mb-4">
-                                                <label for="exampleFormControlSelect1">Select User</label>
-                                                <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setUserId(e.target.value)}
-                                                         >
-                                                {users.map((user, index) => {
-                                                   return (
-                                                    <option value={user.id} >{user.username}
-                                                    </option>
-                                                   );
-                                                })}
-                                                </select>
-                                            </div>
-                                         </div>
-
-                                        </Form.Group>
-                                            <div className="float-right">
-                                              <Button
-                                                variant="primary"
-
-                                               type="button"
-                                                onClick={() => onUserSubmit(taskId,userId)}
-                                                className="mx-2"
-                                                >
-                                                Add
-                                              </Button>
-                                            </div>
-                                      </Form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <h4 class="card-title">List of Tasks</h4>
                     <div class="ml-auto">
                         <div class="dropdown sub-dropdown">
@@ -311,8 +298,6 @@ const AddTask = ({ onAdd }) => {
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
                                 <a class="dropdown-item" data-toggle="modal"
                                     data-target="#login-modal">Create</a>
-                                 <a class="dropdown-item" data-toggle="modal"
-                                    data-target="#adduser-modal">Add User</a>
                             </div>
                         </div>
                     </div>
@@ -322,12 +307,10 @@ const AddTask = ({ onAdd }) => {
                         <thead>
                             <tr class="border-0">
                                 <th class="border-0 font-14 font-weight-medium text-muted px-2">
-                                Title
+                                Task Name
                                 </th>
-                                <th class="border-0 font-14 font-weight-medium text-muted">Details</th>
-                                <th class="border-0 font-14 font-weight-medium text-muted px-2">
-                                Responsible Person
-                                </th>
+                                <th class="border-0 font-14 font-weight-medium text-muted">Description</th>
+
                                 <th class="border-0 font-14 font-weight-medium text-muted text-left">
                                 Start Date
                                 </th>
@@ -338,23 +321,37 @@ const AddTask = ({ onAdd }) => {
                                 Created By
                                 </th>
                                 <th class="border-0 font-14 font-weight-medium text-muted px-2">
+                                Responsible Person
+                                </th>
+                                 <th class="border-0 font-14 font-weight-medium text-muted px-2">
+                                Status
+                                </th>
+                                <th class="border-0 font-14 font-weight-medium text-muted px-2">
                                 Project Name
                                 </th>
                                 <th class="border-0 font-14 font-weight-medium text-muted">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+
                             {tasks.map((task, index) => {
+
                                 return (
+
                                   <tr key="">
+
                                     <th hidden="true" scope="row">{task.id}</th>
-                                    <td>{task.title}</td>
-                                    <td>{task.details}</td>
-                                    <td>{task.responsible_person}</td>
+                                    <td>{task.name}</td>
+                                    <td>{task.description}</td>
                                     <td>{task.start_date}</td>
-                                    <td>{task.deadline}</td>
+                                    <td>{task.end_date}</td>
                                     <td>{task.created_by}</td>
-                                    <td>{task.project_name}</td>
+                                    <td>{task.responsible}</td>
+                                    <td>{task.status}</td>
+                                    <td>
+
+                                     {task.projectId}
+                                    </td>
                                     <td>
                                         <a data-toggle="modal" data-target="#login-modal" onClick={() => selectTask(task.id)}>
                                         <i class="icon-pencil mr-2 text-success" ></i></a>

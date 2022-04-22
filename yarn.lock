@@ -7468,7 +7468,7 @@ react-bootstrap@^2.1.2:
 
 react-contextmenu@^2.14.0:
   version "2.14.0"
-  resolved "https://registry.npmjs.org/react-contextmenu/-/react-contextmenu-2.14.0.tgz"
+  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.14.0.tgz#d8966f30614b9b780b928be4c8d92bd740d55cdd"
   integrity sha512-ktqMOuad6sCFNJs/ltEwppN8F0YeXmqoZfwycgtZR/MxOXMYx1xgYC44SzWH259HdGyshk1/7sXGuIRwj9hzbw==
   dependencies:
     classnames "^2.2.5"
