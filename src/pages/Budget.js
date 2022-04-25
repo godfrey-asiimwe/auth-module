@@ -16,10 +16,10 @@ import {RiDeleteBin6Line} from 'react-icons/ri';
 
 
 
-const AddBudget = ({ onAdd }) => {
+const AddBudget = () => {
   const { user } = useAuthUser()
   const { logout } = useAuthActions()
-  //const [itemName, setItem] = useState("");
+  
   const [itemName, setItem] = useState("");
   const [description, setDescription] = useState("");
   const [itemCost, setAmount] = useState("");
@@ -27,6 +27,7 @@ const AddBudget = ({ onAdd }) => {
   const [budgetId, setBudgetId] = useState("");
   const [budgets, setBudgets] = useState([]);
   const [items, setBudgetItems] = useState([]);
+  
   
   const [inputValue, setValue] = useState('');
   const [selectedValue, setSelectedValue] = useState("");
@@ -79,7 +80,7 @@ const AddBudget = ({ onAdd }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     let item = {budgetId, description, itemCost, itemName};
-    budgetAPI.post("/budgetapi/v1/create_budget_item", item).then(() => refreshBudgetItems());
+    budgetAPI.post("/budgetapi/v1/create_budget_item", item);
    
     setItem("");
     setAmount("");
@@ -111,12 +112,30 @@ const AddBudget = ({ onAdd }) => {
   }
 }
 
-const onUpdate = (id) => {
-      return id;
+//on selecting the
+function selectItems(id) {
+  let item = items.filter((item) => item.itemId === id)[0];
+  setItem(item.itemName);
+  setDescription(item.description);
+  setAmount(item.itemCost);
+  setItemId(item.itemId);
+  setBudgetId(item.budgetId);
 }
 
+
 //update budget item
-const updateItem = () => {}
+const updateItem = (id) => {
+  let item = {itemName,description,itemCost, budgetId};
+  //console.warn(item)
+  budgetAPI.put('/budgetapi/v1/update_budget_item/'+ id, item).then((res) => refreshBudgetItems());
+
+  setItem("");
+  setDescription("");
+  setAmount("");
+  setBudgetId("");
+};
+
+
 
 
 
@@ -139,14 +158,16 @@ const updateItem = () => {}
                    <Form.Group className="mb-3" controlId="formBasicName">
                           <Form.Label>Budget</Form.Label>
                           <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setBudgetId(e.target.value)}>
+                          
                           {budgets.map((budget, index) => {
                             return (
                               
-                                
                                 <option value={budget.budget_id}>{budget.budgetName}</option>
                                 
                             );
                           })}
+                            
+                          
                           </select>
                                 
                         </Form.Group>
@@ -213,23 +234,8 @@ const updateItem = () => {}
                         </a>
                     </div>
 
-                   <Form onSubmit={updateItem()} className="mt-4">
-                   
-                          
-                          {budgets.map((budget, index) => {
-                            return (
-                             <><Form.Group className="mb-3" controlId="formBasicName">
-                          <Form.Label>Budget</Form.Label>
-                              
-                              <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setBudgetId(e.target.value)}>
-                                
-                                <option value={budget.budget_id}>{budget.budgetName}</option>
-                                
-                          
-                              </select>
-                                
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicName">
+                   <Form  className="mt-4">
+                          <Form.Group className="mb-3" controlId="formBasicName">
                           <Form.Label>Item</Form.Label>
                           <Form.Control
                             type="text"
@@ -257,21 +263,15 @@ const updateItem = () => {}
                             onChange={(e) => setAmount(e.target.value)}
                           />
                         </Form.Group>
-                        </> 
                        
-
-                        
-
-                        );
-                          })}
-
+                     
                         <div className="float-right">
                           
                           <Button
                             variant="primary"
                             type="button"
                             className="mx-2"
-                          >
+                            onClick={() => updateItem(item_id)}>
                             Update
                           </Button>
                         </div>
@@ -357,7 +357,7 @@ const updateItem = () => {}
                                                                       <button onClick={() => onDelete(item.itemId)}>Delete</button>
                                                                   </td>
                                                                       <td><button class="dropdown-item" data-toggle="modal"
-                                                                          data-target="#budget_item-modal" onClick={() => onUpdate(item.itemId)}>Update</button>
+                                                                          data-target="#budget_item-modal" onClick={() => selectItems(item.itemId)}>Update</button>
                                                                   </td>
                                                                   
                                                                   </tr>
