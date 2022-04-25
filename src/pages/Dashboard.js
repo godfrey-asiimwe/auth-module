@@ -7,6 +7,8 @@ import API from "../API"
 import Projects from './Projects'
 import Tasks from './Taskss'
 import Budget from './Budget'
+import Schedules from './Schedules'
+import Profile from './Profile'
 
 
 const ContactsState = rj({
@@ -65,7 +67,7 @@ export default function AddressBook() {
                                         class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
+                                <a class="dropdown-item" onClick={() => setState('profile') }><i data-feather="user"
                                         class="svg-icon mr-2 ml-1"></i>
                                     My Profile</a>
                                 <div class="dropdown-divider"></div>
@@ -105,7 +107,7 @@ export default function AddressBook() {
                                 aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
                                     class="hide-menu">Tasks</span></a></li>
                         <li class="sidebar-item">
-                        <a class="sidebar-link sidebar-link" href="app-calendar.html"
+                        <a class="sidebar-link sidebar-link" onClick={() => setState('schedules')}
                                 aria-expanded="false">
                                 <i data-feather="calendar" class="feather-icon"></i><span
                                     class="hide-menu">Schedule</span>
@@ -182,7 +184,9 @@ export default function AddressBook() {
                )}
               {state === 'projects' && <Projects />}
               {state === 'tasks' && <Tasks />}
-              {state === 'budgets' && <Budget/>}
+              {state === 'budgets' && <Budget />}
+              {state === 'schedules' && <Schedules />}
+              {state === 'profile' && <Profile />}
           </div>
          
          </div>

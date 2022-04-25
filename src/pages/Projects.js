@@ -343,7 +343,7 @@ const AddProject = ({ onAdd }) => {
                     <tbody>
                         {projects.map((project, index) => {
                             return (
-                              <tr key="">
+                              <tr key="" data-toggle="collapse" data-target={"#demo"} class="accordion-toggle">
                                 <th hidden="true" scope="row">{project.id}</th>
 
                                 <td>
@@ -390,35 +390,16 @@ const AddProject = ({ onAdd }) => {
                                     <i class="fa fa-times" ></i></a>
                                  </ContextMenuTrigger>
                                 </td>
-                                <ContextMenu id="contextmenu">
-                                    <MenuItem data={{copy: 'MI50'}} onClick={copyCoupon}>
-                                      <FaRegCopy className="copy"/>
-                                      <span>Copy</span>
-                                    </MenuItem>
-                                    <MenuItem >
-                                      <FaEllipsisV className="openwith"/>
-                                      <span>View Members</span>
-                                    </MenuItem>
-                                    <MenuItem >
-                                      <FaList className="watchlist"/>
-                                      <span>View Budget</span>
-                                    </MenuItem>
-                                    <MenuItem>
-                                      <RiSendPlaneFill className="send"/>
-                                      <span>View Tasks</span>
-                                    </MenuItem>
-                                    <MenuItem  onClick={() => onDelete(project.id)}>
-                                      <RiDeleteBin6Line className="delete"/>
-                                      <span>Delete</span>
-                                    </MenuItem>
-                                    <MenuItem>
-                                      <FaShareAlt className="share"/>
-                                      <span>Edit</span>
-                                    </MenuItem>
-                                  </ContextMenu>
+
                               </tr>
+
                             );
                           })}
+
+                       <tr colspan="6" data-toggle="collapse" id="#demo" class="accordion-toggle">
+                                <td>Budget</td>
+                                <td>Budget API</td>
+                       </tr>
                     </tbody>
                 </table>
             </div>

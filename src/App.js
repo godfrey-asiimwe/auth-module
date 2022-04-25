@@ -12,7 +12,6 @@ import Projects from './pages/Projects'
 import './custom.css'
 
 
-
 const login = (credentials = {}) =>
   ajax({
     url: '/token/',
