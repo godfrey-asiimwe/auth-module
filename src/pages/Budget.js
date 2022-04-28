@@ -120,7 +120,7 @@ function selectItems(id) {
   setDescription(item.description);
   setAmount(item.itemCost);
   setItemId(item.itemId);
-  setBudgetId(item.budget_id);
+  setBudgetId(item.budgetId);
 }
 
 
@@ -159,10 +159,11 @@ const updateItem = (id) => {
                    <Form.Group className="mb-3" controlId="formBasicName">
                           <Form.Label>Budget</Form.Label>
                           <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setBudgetId(e.target.value)}>
+                          <option>--Select Budget--</option>
                           
                           {budgets.map((budget, index) => {
                             return (
-                              
+                                
                                 <option value={budget.budget_id}>{budget.budgetName}</option>
                                 
                             );
@@ -210,13 +211,13 @@ const updateItem = (id) => {
                           >
                             Save
                           </Button>
-                          <Button
+                          {/*<Button
                             variant="primary"
                             type="button"
                             className="mx-2"
                           >
                             Update
-                          </Button>
+                          </Button>*/}
                         </div>
                    </Form>
                 </div>
