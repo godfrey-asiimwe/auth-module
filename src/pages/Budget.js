@@ -16,18 +16,21 @@ import {RiDeleteBin6Line} from 'react-icons/ri';
 
 
 
-const AddBudget = ({ onAdd }) => {
+const AddBudget = () => {
   const { user } = useAuthUser()
   const { logout } = useAuthActions()
+  
   const [itemName, setItem] = useState("");
   const [description, setDescription] = useState("");
   const [itemCost, setAmount] = useState("");
   const [item_id, setItemId] = useState("");
-  const [budget_id, setBudgetId] = useState(null);
+  const [budgetId, setBudgetId] = useState("");
   const [budgets, setBudgets] = useState([]);
   const [items, setBudgetItems] = useState([]);
+  
+  
   const [inputValue, setValue] = useState('');
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState("");
 
 
   // handle input change event
@@ -55,15 +58,19 @@ const AddBudget = ({ onAdd }) => {
   }, []);
 
   //fetching budget item data from the system
-  const fetchItemData = () => {
-    budgetAPI.get(`/budgetapi/v1/get_single_budget_item`)
+  const fetchItemData = (id) => {
+    budgetAPI.get("/budgetapi/v1/get_single_budget_item/" + id )
       .then((res) => {
         setBudgetItems(res.data);
       })
       .catch(console.error);
+
   }
 
+  
+
   useEffect(() => {
+    refreshBudgetItems();
     fetchItemData();
   }, []);
 
@@ -72,8 +79,8 @@ const AddBudget = ({ onAdd }) => {
   //assign budget item to a project
   const onSubmit = (e) => {
     e.preventDefault();
-    let item = {budget_id, itemName, description, itemCost};
-    budgetAPI.post("/budgetapi/v1/create_budget_item", item).then(() => refreshBudgetItems());
+    let item = {budgetId, description, itemCost, itemName};
+    budgetAPI.post("/budgetapi/v1/create_budget_item", item);
    
     setItem("");
     setAmount("");
@@ -83,8 +90,8 @@ const AddBudget = ({ onAdd }) => {
   };
 
    //refreshing the budget item list
-   const refreshBudgetItems = () => {
-    budgetAPI.get("/budgetapi/v1/get_single_budget_item")
+   const refreshBudgetItems = (id) => {
+    budgetAPI.get("/budgetapi/v1/get_single_budget_item/" + id)
       .then((res) => {
         setBudgetItems(res.data);
       })
@@ -105,12 +112,31 @@ const AddBudget = ({ onAdd }) => {
   }
 }
 
-const onUpdate = (id) => {
-      return id;
+
+//on selecting the
+function selectItems(id) {
+  let item = items.filter((item) => item.itemId === id)[0];
+  setItem(item.itemName);
+  setDescription(item.description);
+  setAmount(item.itemCost);
+  setItemId(item.itemId);
+  setBudgetId(item.budget_id);
 }
 
+
 //update budget item
-const updateItem = () => {}
+const updateItem = (id) => {
+  let item = {itemName,description,itemCost, budgetId};
+  //console.warn(item)
+  budgetAPI.put('/budgetapi/v1/update_budget_item/'+ id, item).then((res) => refreshBudgetItems());
+
+  setItem("");
+  setDescription("");
+  setAmount("");
+  setBudgetId("");
+};
+
+
 
 
 
@@ -133,14 +159,16 @@ const updateItem = () => {}
                    <Form.Group className="mb-3" controlId="formBasicName">
                           <Form.Label>Budget</Form.Label>
                           <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setBudgetId(e.target.value)}>
+                          
                           {budgets.map((budget, index) => {
                             return (
                               
-                                
                                 <option value={budget.budget_id}>{budget.budgetName}</option>
                                 
                             );
                           })}
+                            
+                          
                           </select>
                                 
                         </Form.Group>
@@ -148,7 +176,7 @@ const updateItem = () => {}
                           <Form.Label>Item</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter Item"
+                            placeholder="Item"
                             value={itemName}
                             onChange={(e) => setItem(e.target.value)}
                           />
@@ -157,7 +185,7 @@ const updateItem = () => {}
                           <Form.Label>Description</Form.Label>
                           <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                             type="text"
-                            placeholder="Enter Item"
+                            placeholder="Description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                           />
@@ -167,7 +195,7 @@ const updateItem = () => {}
                           <Form.Label>Item Cost</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter Amount"
+                            placeholder="Amount"
                             value={itemCost}
                             onChange={(e) => setAmount(e.target.value)}
                           />
@@ -207,23 +235,8 @@ const updateItem = () => {}
                         </a>
                     </div>
 
-                   <Form onSubmit={updateItem()} className="mt-4">
-                   
-                          
-                          {budgets.map((budget, index) => {
-                            return (
-                             <><Form.Group className="mb-3" controlId="formBasicName">
-                          <Form.Label>Budget</Form.Label>
-                              
-                              <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setBudgetId(e.target.value)}>
-                                
-                                <option value={budget.budget_id}>{budget.budgetName}</option>
-                                
-                          
-                              </select>
-                                
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicName">
+                   <Form  className="mt-4">
+                          <Form.Group className="mb-3" controlId="formBasicName">
                           <Form.Label>Item</Form.Label>
                           <Form.Control
                             type="text"
@@ -251,21 +264,15 @@ const updateItem = () => {}
                             onChange={(e) => setAmount(e.target.value)}
                           />
                         </Form.Group>
-                        </> 
                        
-
-                        
-
-                        );
-                          })}
-
+                     
                         <div className="float-right">
                           
                           <Button
                             variant="primary"
                             type="button"
                             className="mx-2"
-                          >
+                            onClick={() => updateItem(item_id)}>
                             Update
                           </Button>
                         </div>
@@ -321,7 +328,7 @@ const updateItem = () => {}
                                                   return(
                                                     
                                                     <>
-                                                    <tr colspan="6" data-toggle="collapse" data-target={"#demo" + budget.budget_id} class="accordion-toggle">
+                                                    <tr colspan="6" data-toggle="collapse" data-target={"#demo" + budget.budget_id} class="accordion-toggle" onClick = {()=>fetchItemData(budget.budget_id)}>
                                                     
                                                         <td>{budget.budgetName}</td>
                                                         <td>{"#demo" + budget.budget_id}</td>
@@ -330,26 +337,28 @@ const updateItem = () => {}
                                                     
                                                     <tr class="p">
                                                       <td colspan="6" class="hiddenRow">
-                                                      <div class="accordian-body collapse p-3" id={"demo" + JSON.stringify(budget.budget_id)}>
-                                                      {items.map((item, i) => {
-                                                            {
-                                                              return(
-                                                                <>
-                                                                <tr>
+                                                      
+                                                      <div class="accordian-body collapse p-3" id={"demo" + JSON.stringify(budget.budget_id)}  > 
+                                                      <tr>
                                                                   <th>Item</th>
                                                                   <th>Description</th>
                                                                   <th>Cost</th>
                                                                   <th>Actions</th>
                                                                 </tr>
+                                                      {items.map((item, i) => {
+                                                            {
+                                                              return(
+                                                                <>
+                                                               
                                                                 <tr key={i}>
-                                                                  <td>Item: {item.itemName} </td>
-                                                                  <td>Description: {item.description} </td>
-                                                                  <td>Item Cost: {item.itemCost} </td>
+                                                                  <td>{item.itemName} </td>
+                                                                  <td>{item.description} </td>
+                                                                  <td>{item.itemCost} </td>
                                                                   <td>
                                                                       <button onClick={() => onDelete(item.itemId)}>Delete</button>
                                                                   </td>
                                                                       <td><button class="dropdown-item" data-toggle="modal"
-                                                                          data-target="#budget_item-modal" onClick={() => onUpdate(item.itemId)}>Update</button>
+                                                                          data-target="#budget_item-modal" onClick={() => selectItems(item.itemId)}>Update</button>
                                                                   </td>
                                                                   
                                                                   </tr>
