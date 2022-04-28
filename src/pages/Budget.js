@@ -112,6 +112,7 @@ const AddBudget = () => {
   }
 }
 
+
 //on selecting the
 function selectItems(id) {
   let item = items.filter((item) => item.itemId === id)[0];
@@ -338,21 +339,21 @@ const updateItem = (id) => {
                                                       <td colspan="6" class="hiddenRow">
                                                       
                                                       <div class="accordian-body collapse p-3" id={"demo" + JSON.stringify(budget.budget_id)}  > 
-                                                     
-                                                      {items.map((item, i) => {
-                                                            {
-                                                              return(
-                                                                <>
-                                                                <tr>
+                                                      <tr>
                                                                   <th>Item</th>
                                                                   <th>Description</th>
                                                                   <th>Cost</th>
                                                                   <th>Actions</th>
                                                                 </tr>
+                                                      {items.map((item, i) => {
+                                                            {
+                                                              return(
+                                                                <>
+                                                               
                                                                 <tr key={i}>
-                                                                  <td>Item: {item.itemName} </td>
-                                                                  <td>Description: {item.description} </td>
-                                                                  <td>Item Cost: {item.itemCost} </td>
+                                                                  <td>{item.itemName} </td>
+                                                                  <td>{item.description} </td>
+                                                                  <td>{item.itemCost} </td>
                                                                   <td>
                                                                       <button onClick={() => onDelete(item.itemId)}>Delete</button>
                                                                   </td>
