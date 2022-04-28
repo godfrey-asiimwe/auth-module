@@ -24,7 +24,7 @@ const AddProfile = ({ onAdd }) => {
   const [contactId, setContactId] = useState(null);
   const [contacts, setContacts] = useState([]);
 
-   const [inputValue, setValue] = useState('');
+  const [inputValue, setValue] = useState('');
   const [selectedValue, setSelectedValue] = useState(null);
 
   // handle input change event

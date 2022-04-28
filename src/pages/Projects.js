@@ -123,7 +123,6 @@ const AddProject = ({ onAdd }) => {
         });
 
       alert("Project with ID " + id + " was deleted successfully");
-
     }
   };
 
@@ -147,8 +146,6 @@ const AddProject = ({ onAdd }) => {
 
   return (
      <>
-
-
 
     <div class="card">
         <div class="card-body">
@@ -253,7 +250,8 @@ const AddProject = ({ onAdd }) => {
                                             <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setUserId(e.target.value)}>
                                                 {users.map((user, index) => {
                                                    return (
-                                                    <option value={user.id} >{user.username}
+                                                    <option value={user.id} >
+                                                    {user.username}
                                                     </option>
                                                    );
                                                 })}
