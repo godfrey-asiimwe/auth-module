@@ -120,7 +120,7 @@ function selectItems(id) {
   setDescription(item.description);
   setAmount(item.itemCost);
   setItemId(item.itemId);
-  setBudgetId(item.budgetId);
+  setBudgetId(item.budget_id);
 }
 
 
@@ -176,7 +176,7 @@ const updateItem = (id) => {
                           <Form.Label>Item</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter Item"
+                            placeholder="Item"
                             value={itemName}
                             onChange={(e) => setItem(e.target.value)}
                           />
@@ -185,7 +185,7 @@ const updateItem = (id) => {
                           <Form.Label>Description</Form.Label>
                           <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                             type="text"
-                            placeholder="Enter Item"
+                            placeholder="Description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                           />
@@ -195,7 +195,7 @@ const updateItem = (id) => {
                           <Form.Label>Item Cost</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter Amount"
+                            placeholder="Amount"
                             value={itemCost}
                             onChange={(e) => setAmount(e.target.value)}
                           />
