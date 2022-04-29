@@ -34,14 +34,12 @@ export default function AddressBook() {
                 <div class="navbar-header" data-logobg="skin6">
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
                             class="ti-menu ti-close"></i></a>
-
                     <div class="navbar-brand">
-
                         <a href="index.html">
                             <b class="logo-icon" >
-                                <img src="../assets/images/logo.png" alt="homepage" class="dark-logo" />
+                                <img src="../assets/images/coseke.png" alt="homepage" class="dark-logo" />
 
-                                <img src="../assets/images/logo.png" alt="homepage" class="light-logo" />
+                                <img src="../assets/images/coseke.png" alt="homepage" class="light-logo" />
                             </b>
                             <span class="logo-text">
                             </span>

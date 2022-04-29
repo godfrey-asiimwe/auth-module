@@ -14,6 +14,7 @@ import '../coupon.css'
 
 
 const AddProject = ({ onAdd }) => {
+
   const { user } = useAuthUser()
   const { logout } = useAuthActions()
   const [name, setName] = useState("");
@@ -26,6 +27,7 @@ const AddProject = ({ onAdd }) => {
 
   const [first_name, setFirstname]=useState("")
   const [last_name, setLastname]=useState("")
+  const [role, setRole] = useState("");
   const [users, setUsers] = useState([]);
   const [projectusers, setProjectUsers] = useState([]);
   const [userId, setUserId] = useState(null);
@@ -58,7 +60,7 @@ const AddProject = ({ onAdd }) => {
 
   //select users per project
   const onViewUsers = (id) => {
-    let item = {first_name,last_name};
+    let item = {first_name,last_name,role};
     auth.get("/prousers/"+id)
       .then((res) => {
         setProjectUsers(res.data);
@@ -67,8 +69,8 @@ const AddProject = ({ onAdd }) => {
   };
 
  //attach a user to a project
-  const onUserSubmit = (projectId,userId) => {
-    let item = {userId,projectId};
+  const onUserSubmit = (projectId,userId,role) => {
+    let item = {userId,projectId,role};
     if (window.confirm("Are you sure you want to add a user to this project?")) {
        auth.post("/create/", item).then((res) => fetchData())
         .then()
@@ -123,6 +125,7 @@ const AddProject = ({ onAdd }) => {
         });
 
       alert("Project with ID " + id + " was deleted successfully");
+
     }
   };
 
@@ -147,90 +150,89 @@ const AddProject = ({ onAdd }) => {
   return (
      <>
 
-    <div class="card">
-        <div class="card-body">
-        <div id="login-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="text-center mt-2 mb-4">
-                        <a href="index.html" class="text-success">
-                            <span></span>
-                        </a>
+                <div class="card">
+                    <div class="card-body">
+                    <div id="login-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="text-center mt-2 mb-4">
+                                    <a href="index.html" class="text-success">
+                                        <span></span>
+                                    </a>
+                                </div>
+
+                               <Form onSubmit={onSubmit} className="mt-4">
+                                    <Form.Group className="mb-3" controlId="formBasicName">
+                                      <Form.Label>Name</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        placeholder="Enter Name"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                      />
+                                    </Form.Group>
+
+                                    <div class="form-group">
+                                        <textarea class="form-control" rows="3" placeholder="Text Here..."
+                                        value={description}
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        ></textarea>
+                                    </div>
+
+                                    <Form.Group className="mb-3" controlId="formBasicStarring">
+                                      <Form.Label>Start Date</Form.Label>
+                                      <Form.Control
+                                        type="date"
+                                        placeholder="Enter Start_date"
+                                        value={start_date}
+                                        onChange={(e) => setStartDate(e.target.value)}
+                                      />
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="formBasicStarring">
+                                      <Form.Label>End Date</Form.Label>
+                                      <Form.Control
+                                        type="date"
+                                        placeholder="Enter End Date"
+                                        value={end_date}
+                                        onChange={(e) => setEndDate(e.target.value)}
+                                      />
+                                    </Form.Group>
+
+                                     <Form.Group className="mb-3" controlId="formBasicStarring">
+                                      <Form.Label>Type</Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        placeholder="Enter Type"
+                                        value={type}
+                                        onChange={(e) => setType(e.target.value)}
+                                      />
+                                    </Form.Group>
+
+                                    <div className="float-right">
+                                      <Button
+                                        variant="primary"
+                                        type="submit"
+                                        onClick={onSubmit}
+                                        className="mx-2"
+                                      >
+                                        Save
+                                      </Button>
+                                      <Button
+                                        variant="primary"
+                                        type="button"
+                                        onClick={() => onUpdate(projectId)}
+                                        className="mx-2"
+                                      >
+                                        Update
+                                      </Button>
+                                    </div>
+                               </Form>
+                            </div>
+                        </div>
                     </div>
-
-                   <Form onSubmit={onSubmit} className="mt-4">
-                        <Form.Group className="mb-3" controlId="formBasicName">
-                          <Form.Label>Name</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                          />
-                        </Form.Group>
-
-                        <div class="form-group">
-                            <textarea class="form-control" rows="3" placeholder="Text Here..."
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            ></textarea>
-                        </div>
-
-                        <Form.Group className="mb-3" controlId="formBasicStarring">
-                          <Form.Label>Start Date</Form.Label>
-                          <Form.Control
-                            type="date"
-                            placeholder="Enter Start_date"
-                            value={start_date}
-                            onChange={(e) => setStartDate(e.target.value)}
-                          />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="formBasicStarring">
-                          <Form.Label>End Date</Form.Label>
-                          <Form.Control
-                            type="date"
-                            placeholder="Enter End Date"
-                            value={end_date}
-                            onChange={(e) => setEndDate(e.target.value)}
-                          />
-                        </Form.Group>
-
-                         <Form.Group className="mb-3" controlId="formBasicStarring">
-                          <Form.Label>Type</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter Type"
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
-                          />
-                        </Form.Group>
-
-                        <div className="float-right">
-                          <Button
-                            variant="primary"
-                            type="submit"
-                            onClick={onSubmit}
-                            className="mx-2"
-                          >
-                            Save
-                          </Button>
-                          <Button
-                            variant="primary"
-                            type="button"
-                            onClick={() => onUpdate(projectId)}
-                            className="mx-2"
-                          >
-                            Update
-                          </Button>
-                        </div>
-                   </Form>
                 </div>
-            </div>
-        </div>
-    </div>
-
 
                  <div id="adduser-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
@@ -257,13 +259,21 @@ const AddProject = ({ onAdd }) => {
                                                 })}
                                             </select>
                                         </div>
+                                        <div class="form-group mb-4">
+                                            <label for="exampleFormControlSelect1">Select Role</label>
+                                            <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setUserId(e.target.value)}>
+                                                <option value="admin" >Admin</option>
+                                                <option value="user" >User</option>
+                                                <option value="developer" >Developer</option>
+                                            </select>
+                                        </div>
                                      </div>
                                     </Form.Group>
                                     <div className="float-right">
                                       <Button
                                         variant="primary"
                                         type="button"
-                                        onClick={() => onUserSubmit(projectId,userId)}
+                                        onClick={() => onUserSubmit(projectId,userId,role)}
                                         className="mx-2"
                                         >
                                         Add
@@ -285,6 +295,7 @@ const AddProject = ({ onAdd }) => {
                                             <tr class="border-0">
                                                 <th class="border-0 font-14 font-weight-medium text-muted">First name</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted">Last Name</th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Role</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -293,6 +304,7 @@ const AddProject = ({ onAdd }) => {
                                                   <tr key="">
                                                     <td>{user.first_name}</td>
                                                     <td>{user.last_name}</td>
+                                                    <td>{user.role}</td>
                                                   </tr>
                                                 );
                                               })}
@@ -304,7 +316,7 @@ const AddProject = ({ onAdd }) => {
                     </div>
                  </div>
             <div class="d-flex align-items-center mb-4">
-                <h4 class="card-title">List of Projects</h4>
+                <h4 class="card-title" >List of Projects</h4>
                 <div class="ml-auto">
                     <div class="dropdown sub-dropdown">
                         <button class="btn btn-link text-muted dropdown-toggle" type="button"
@@ -343,7 +355,6 @@ const AddProject = ({ onAdd }) => {
                             return (
                               <tr key="" data-toggle="collapse" data-target={"#demo"} class="accordion-toggle">
                                 <th hidden="true" scope="row">{project.id}</th>
-
                                 <td>
                                 <ContextMenuTrigger id="contextmenu">
                                 {project.name}
@@ -388,16 +399,9 @@ const AddProject = ({ onAdd }) => {
                                     <i class="fa fa-times" ></i></a>
                                  </ContextMenuTrigger>
                                 </td>
-
                               </tr>
-
                             );
                           })}
-
-                       <tr colspan="6" data-toggle="collapse" id="#demo" class="accordion-toggle">
-                                <td>Budget</td>
-                                <td>Budget API</td>
-                       </tr>
                     </tbody>
                 </table>
             </div>

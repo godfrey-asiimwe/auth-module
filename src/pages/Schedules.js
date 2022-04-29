@@ -6,6 +6,7 @@ import {RiSendPlaneFill, RiDeleteBin6Line} from 'react-icons/ri';
 import { rj, useRunRj } from 'react-rocketjump'
 import { ajax } from 'rxjs/ajax'
 import { useAuthActions, useAuthUser } from 'use-eazy-auth'
+import Chart from 'react-google-charts'
 import AsyncSelect from 'react-select/async';
 import sheduleAPI from "../sheduleAPI"
 import API from "../API"
@@ -127,6 +128,27 @@ const AddSchedule = ({ onAdd }) => {
     setName(item.name);
   }
 
+  const ganttChartData = [
+      [
+        { type: 'string', label: 'Task ID' },
+        { type: 'string', label: 'Task Name' },
+        { type: 'date', label: 'Start Date' },
+        { type: 'date', label: 'End Date' },
+        { type: 'number', label: 'Duration' },
+        { type: 'number', label: 'Percent Complete' },
+        { type: 'string', label: 'Dependencies' },
+      ],
+      [
+        'research',
+        'Project Inception',
+        new Date(2015, 0, 1),
+        new Date(2015, 0, 5),
+        null,
+        100,
+        null,
+      ],
+  ]
+
 
   return (
      <>
@@ -217,8 +239,6 @@ const AddSchedule = ({ onAdd }) => {
             </div>
         </div>
 
-
-
         <div class="d-flex align-items-center mb-4">
             <h4 class="card-title">List of Schedules</h4>
             <div class="ml-auto">
@@ -286,8 +306,7 @@ const AddSchedule = ({ onAdd }) => {
                              <td>
                                 <a data-toggle="modal" data-target="#login-modal" onClick={() => selectSchedule(schedule.id)}>
                                 <i class="icon-pencil mr-2 text-success" ></i></a>
-                                <a data-toggle="modal" data-target="#adduser-modal" onClick={() => selectSchedule(schedule.id)}>
-                                </a>
+
                                 <a onClick={() => onDelete(schedule.id)}>
                                 <i class="fa fa-times" ></i></a>
                             </td>
@@ -299,6 +318,15 @@ const AddSchedule = ({ onAdd }) => {
         </div>
      </div>
   </div>
+
+  <Chart
+          width={'700px'}
+          height={'410px'}
+          chartType="Gantt"
+          loader={<div>Loading Chart</div>}
+          data={ganttChartData}
+          rootProps={{ 'data-testid': '1' }}
+        />
  </>
   );
 };

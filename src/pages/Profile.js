@@ -123,38 +123,36 @@ const AddProfile = ({ onAdd }) => {
                             </div>
 
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label>Email</label>
-                                    <input
-                                       placeholder={contact.email}
-                                          onChange={(e) => setEmail(e.target.value)}
-                                        className="form-control"
-                                        type="email"
-                                      />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Phone</label>
-                                    <input
-                                        placeholder={contact.phone}
-                                        onChange={(e) => setPhone(e.target.value)}
-                                        className="form-control"
-                                        type="text"
-                                      />
-                                </div>
+                              <Form.Group className="mb-3 col-md-6" controlId="formBasicStarring">
+                                  <Form.Label>Your Email</Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                     value={contact.email}
+                                      onChange={(e) => setEmail(e.target.value)}
+                                  />
+                              </Form.Group>
+                              <Form.Group className="mb-3 col-md-6" controlId="formBasicStarring">
+                                  <Form.Label>Enter Phone</Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="Enter Phone"
+                                     value={contact.phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                  />
+                              </Form.Group>
                             </div>
                             <div class="row">
                                 <label>Bio </label>
-                                <div class="form-group">
-                                    <textarea class="form-control" rows="3" placeholder={contact.notes}
-                            onChange={(e) => setNotes(e.target.value)}>
-
-                                    </textarea>
-                                </div>
+                                 <div class="form-group">
+                                    <textarea class="form-control" rows="3" placeholder="Text Here..."
+                                    value={contact.notes}
+                                    onChange={(e) => setNotes(e.target.value)}
+                                    ></textarea>
+                                 </div>
                                 <div class="card-footer text-right">
                                   <button class="btn btn-primary" onClick={() => onUpdate(contact.id)}>Save Changes</button>
                                 </div>
                             </div>
-
                           </form>
                         </div>
                    </div>
