@@ -14,6 +14,7 @@ const AddTask = ({ onAdd }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [responsible, setResponsiblePerson] = useState("")
+  const [observer, setObserverPerson] = useState("")
   const [start_date, setStartDate] = useState("");
   const [end_date, setDeadline] = useState("");
   const [created_by, setCreatedBy] = useState("");
@@ -112,12 +113,13 @@ const AddTask = ({ onAdd }) => {
   //on saving the task
   const onSubmit = (event) => {
     event.preventDefault();
-    let item = { name, description, responsible, start_date,end_date, created_by, projectId};
+    let item = { name, description, responsible,observer,start_date,end_date, created_by, projectId};
     tasksapi.post("/create/", item).then(() => refreshTasks());
 
     setName("");
     setDescription("");
     setResponsiblePerson("");
+    setObserverPerson("");
     setStartDate("");
     setDeadline("")
     setCreatedBy("");
@@ -126,12 +128,13 @@ const AddTask = ({ onAdd }) => {
   };  
 
   const onUpdate = (id) => {
-    let item = {name, description, responsible, start_date,end_date, created_by, projectId};
+    let item = {name,description,responsible,observer,start_date,end_date,created_by,projectId};
     tasksapi.post('/update/'+id, item).then((res) => refreshTasks());
 
     setName("");
     setDescription("");
     setResponsiblePerson("");
+    setObserverPerson("");
     setStartDate("");
     setDeadline("")
     setCreatedBy("");
@@ -154,6 +157,7 @@ const AddTask = ({ onAdd }) => {
     setName(item.name);
     setDescription(item.description);
     setResponsiblePerson(item.responsible);
+    setObserverPerson(item.observer);
     setStartDate(item.start_date);
     setDeadline(item.end_date)
     setCreatedBy(item.created_by);
@@ -206,6 +210,19 @@ const AddTask = ({ onAdd }) => {
                                         <Form.Group className="mb-3" controlId="formBasicName">
                                           <Form.Label>Responsible Person</Form.Label>
                                             <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setResponsiblePerson(e.target.value)}
+                                                     >
+                                            {users.map((user, index) => {
+                                               return (
+                                                <option value={user.username} >{user.username}
+                                                </option>
+                                               );
+                                            })}
+                                            </select>
+                                        </Form.Group>
+
+                                         <Form.Group className="mb-3" controlId="formBasicName">
+                                          <Form.Label>Observer</Form.Label>
+                                            <select class="form-control" id="exampleFormControlSelect1"  onChange={(e) => setObserverPerson(e.target.value)}
                                                      >
                                             {users.map((user, index) => {
                                                return (
@@ -323,6 +340,9 @@ const AddTask = ({ onAdd }) => {
                                 <th class="border-0 font-14 font-weight-medium text-muted px-2">
                                 Responsible Person
                                 </th>
+                                <th class="border-0 font-14 font-weight-medium text-muted px-2">
+                                Observer
+                                </th>
                                  <th class="border-0 font-14 font-weight-medium text-muted px-2">
                                 Status
                                 </th>
@@ -347,6 +367,7 @@ const AddTask = ({ onAdd }) => {
                                     <td>{task.end_date}</td>
                                     <td>{task.created_by}</td>
                                     <td>{task.responsible}</td>
+                                    <td>{task.observer}</td>
                                     <td>{task.status}</td>
                                     <td>
 
