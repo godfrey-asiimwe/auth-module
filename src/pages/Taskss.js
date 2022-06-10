@@ -163,16 +163,12 @@ const AddTask = ({ onAdd }) => {
     setCreatedBy(item.created_by);
     setprojectId(item.projectId)
     setTaskId(item.id);
-
   }
 
   function selectProject(id) {
     let item = projects.filter((project) => project.id === id)[0];
     setName(item.name);
   }
-
-
-
 
   return (
         <div class="card">
@@ -370,7 +366,6 @@ const AddTask = ({ onAdd }) => {
                                     <td>{task.observer}</td>
                                     <td>{task.status}</td>
                                     <td>
-
                                      {task.projectId}
                                     </td>
                                     <td>
@@ -389,7 +384,6 @@ const AddTask = ({ onAdd }) => {
                 </div>
             </div>
         </div>
-
   );
 };
 
