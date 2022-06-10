@@ -13,9 +13,6 @@ import {RiDeleteBin6Line} from 'react-icons/ri';
 
 // import accordion packages
 
-
-
-
 const AddBudget = () => {
   const { user } = useAuthUser()
   const { logout } = useAuthActions()

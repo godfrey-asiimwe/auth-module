@@ -6,7 +6,6 @@ const BUDGET_API_BASE_URL = "http://localhost:8080/api/v1/budget";
 
 
 class BudgetService{
-   
 
     createBudgetItem(budget){
         // pass the entire employee object
@@ -28,9 +27,6 @@ class BudgetService{
     updateBudget(budgetDetails, budgetId){
         return axios.put(BUDGET_API_BASE_URL + "/" + budgetId, budgetDetails);
     }
-
-   
-
 
 
 }

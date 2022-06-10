@@ -349,13 +349,9 @@ const AddTask = ({ onAdd }) => {
                             </tr>
                         </thead>
                         <tbody>
-
                             {tasks.map((task, index) => {
-
                                 return (
-
                                   <tr key="">
-
                                     <th hidden="true" scope="row">{task.id}</th>
                                     <td>{task.name}</td>
                                     <td>{task.description}</td>
@@ -364,9 +360,11 @@ const AddTask = ({ onAdd }) => {
                                     <td>{task.created_by}</td>
                                     <td>{task.responsible}</td>
                                     <td>{task.observer}</td>
-                                    <td>{task.status}</td>
                                     <td>
-                                     {task.projectId}
+                                      {task.status==1 ? 'Completed' : 'Pending'}
+                                    </td>
+                                    <td>
+                                       {task.projectId}
                                     </td>
                                     <td>
                                         <a data-toggle="modal" data-target="#login-modal" onClick={() => selectTask(task.id)}>
@@ -375,6 +373,8 @@ const AddTask = ({ onAdd }) => {
                                         </a>
                                         <a onClick={() => onDelete(task.id)}>
                                         <i class="fa fa-times" ></i></a>
+                                        <a onClick={() => onDelete(task.id)}>
+                                         Finish </a>
                                     </td>
                                   </tr>
                                 );

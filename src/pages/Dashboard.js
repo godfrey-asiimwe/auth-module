@@ -155,7 +155,6 @@ export default function AddressBook() {
                                 <div>
                                     <div class="d-inline-flex align-items-center">
                                         <h2 class="text-dark mb-1 font-weight-medium">3</h2>
-
                                     </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Active Projects</h6>
                                 </div>
@@ -189,9 +188,9 @@ export default function AddressBook() {
          
          </div>
 
-       <footer class="footer text-center text-muted">
-            All Rights Reserved by Coseke. Designed and Developed by
-            <a href="">Coseke U LTD</a>.
+       <footer class="footer text-center text-muted" >
+            All Rights Reserved by Coseke.
+            <a class="sec2"> Designed and Developed by  Coseke U LTD</a>.
        </footer>
 
       </div>

@@ -181,3 +181,10 @@ td{
 .no-wrap td, .no-wrap th {
   white-space: normal !important;
 }
+.footer{
+    padding-top:50px !important;
+}
+
+.footer .sec2{
+    color: #ec2027 !important
+}

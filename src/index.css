@@ -55,9 +55,11 @@ body, html, .App, #root, .auth-wrapper {
   line-height: 1;
   padding-bottom: 20px;
 }
+
 .custom-control-label {
   font-weight: 400;
 }
+
 .forgot-password,
 .forgot-password a {
   text-align: right;
@@ -66,6 +68,7 @@ body, html, .App, #root, .auth-wrapper {
   color: #7f7d7d;
   margin: 0;
 }
+
 .forgot-password a {
   color: #167bff;
 }

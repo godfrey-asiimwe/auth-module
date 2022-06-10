@@ -107,7 +107,6 @@ const AddProject = ({ onAdd }) => {
   const onUpdate = (id) => {
     let item = {name,description,start_date,end_date,type};
     API.post('/update/'+id, item).then((res) => refreshProjects());
-
     setName("");
     setDescription("");
     setStartDate("");
@@ -149,7 +148,6 @@ const AddProject = ({ onAdd }) => {
 
   return (
      <>
-
                 <div class="card">
                     <div class="card-body">
                     <div id="login-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
