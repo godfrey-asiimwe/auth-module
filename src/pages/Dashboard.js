@@ -9,6 +9,10 @@ import Tasks from './Taskss'
 import Budget from './Budget'
 import Schedules from './Schedules'
 import Profile from './Profile'
+import Rprojects from './Rprojects'
+import Rtasks from './Rtasks'
+
+
 
 
 const ContactsState = rj({
@@ -112,6 +116,25 @@ export default function AddressBook() {
                                     </a></li>
                         <li class="list-divider"></li>
                     </ul>
+                    
+
+                    <ul id="sidebarnav">
+                    <li class="nav-small-cap"><span class="hide-menu">Project Reports</span></li> 
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link pointer-link"  onClick={() => setState('Rprojects')}
+                                aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
+                                    class="hide-menu">Projects</span></a></li>
+                        
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link pointer-link"  onClick={() => setState('Rtasks')}
+                                aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
+                                    class="hide-menu">Tasks</span></a></li>
+
+
+
+
+
+                        <li class="list-divider"></li>
+                        
+                    </ul>
                 </nav>
             </div>
          </aside>
@@ -184,6 +207,8 @@ export default function AddressBook() {
               {state === 'budgets' && <Budget />}
               {state === 'schedules' && <Schedules />}
               {state === 'profile' && <Profile />}
+              {state === 'Rprojects' && <Rprojects/>}
+              {state === 'Rtasks' && <Rtasks/>}
           </div>
          
          </div>
